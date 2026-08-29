@@ -242,13 +242,17 @@ describe('switching kinds clears stale state', () => {
   it('drops the copy confirmation, which referred to the old value', async () => {
     const user = setup();
 
+    const copyButton = () => screen.getByRole('button', { name: 'Copy' });
+
     await user.click(screen.getByRole('button', { name: /^Copy UUID/ }));
-    expect(await screen.findByText('✓ Copied')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(copyButton()).toHaveAttribute('data-state', 'copied');
+    });
 
     await user.click(tab('v7'));
 
     await waitFor(() => {
-      expect(screen.getByText('click to copy')).toBeInTheDocument();
+      expect(copyButton()).toHaveAttribute('data-state', 'idle');
     });
   });
 });

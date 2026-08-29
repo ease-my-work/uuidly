@@ -1,5 +1,5 @@
 import type { CopyState } from '@/hooks/useCopy';
-import { CheckIcon, CopyIcon, RefreshIcon } from './icons';
+import { AlertIcon, CheckIcon, CopyIcon, RefreshIcon } from './icons';
 
 /** docs/DESIGN.md §7.3, §7.4, §7.5. */
 
@@ -18,12 +18,6 @@ interface UuidDisplayProps {
   labelledBy: string;
 }
 
-const HINT: Record<CopyState, string> = {
-  idle: 'click to copy',
-  copied: '✓ Copied',
-  failed: 'Copy failed — select and press Ctrl+C',
-};
-
 const ICON_BUTTON =
   'bg-surface-2 border-border flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[7px] border transition-colors duration-[120ms]';
 
@@ -41,18 +35,14 @@ export function UuidDisplay({
   const copied = copyState === 'copied';
   const failed = copyState === 'failed';
 
-  const border = copied
-    ? 'border-success'
-    : failed
-      ? 'border-danger'
-      : 'border-border hover:border-accent/40';
-
-  const hint = copied ? 'text-success' : failed ? 'text-danger' : 'text-mute';
-
   return (
-    <div role="tabpanel" id={panelId} aria-labelledby={labelledBy} className="px-3 pt-3">
+    <div role="tabpanel" id={panelId} aria-labelledby={labelledBy} className="px-3 py-3">
       <div
-        className={`bg-surface rounded-card group border px-3 pt-3 pb-2 transition-colors duration-[120ms] ${border}`}
+        className={`bg-surface rounded-card border p-3 transition-colors duration-[120ms] ${
+          // Success needs no border change — the green check says it. Failure is
+          // not routine feedback, so it gets the louder treatment.
+          failed ? 'border-danger' : 'border-border hover:border-accent/40'
+        }`}
       >
         <div className="flex items-center gap-2">
           {/*
@@ -91,12 +81,15 @@ export function UuidDisplay({
             type="button"
             aria-label="Copy"
             // The name stays "Copy" so repeat activation is predictable; the
-            // confirmation is carried by the live region and the hint line.
-            data-state={copied ? 'copied' : 'idle'}
+            // outcome is carried by the icon and by the live region below.
+            data-state={copyState}
+            title={failed ? 'Copy failed — select the UUID and press Ctrl+C' : undefined}
             onClick={onCopy}
-            className={`${ICON_BUTTON} hover:bg-surface-3 ${copied ? 'text-success' : 'text-accent'}`}
+            className={`${ICON_BUTTON} hover:bg-surface-3 ${
+              copied ? 'text-success' : failed ? 'text-danger' : 'text-accent'
+            }`}
           >
-            {copied ? <CheckIcon /> : <CopyIcon />}
+            {copied ? <CheckIcon /> : failed ? <AlertIcon /> : <CopyIcon />}
           </button>
 
           <button
@@ -117,28 +110,12 @@ export function UuidDisplay({
             <RefreshIcon />
           </button>
         </div>
-
-        {/*
-          Decorative: the copy control's own label already says what it does, and
-          the copied/failed states are announced by the live region below. Its
-          height is reserved so revealing it never shifts the layout.
-        */}
-        <p
-          aria-hidden="true"
-          data-state={copyState}
-          className={`mt-1 h-4 text-right text-[11px] leading-4 transition-opacity duration-[120ms] ${hint} ${
-            // At rest the hint is noise once you know the interaction. On hover
-            // it explains; on focus-within it does the same for keyboard users,
-            // who never hover.
-            copied || failed
-              ? 'opacity-100'
-              : 'opacity-0 group-focus-within:opacity-100 group-hover:opacity-100'
-          }`}
-        >
-          {HINT[copyState]}
-        </p>
       </div>
 
+      {/*
+        The only remaining announcement channel. Sighted users get the icon; this
+        is what a screen reader gets, and it costs no layout.
+      */}
       <span aria-live="polite" className="sr-only">
         {copied ? `Copied ${value}` : failed ? 'Copy failed' : ''}
       </span>

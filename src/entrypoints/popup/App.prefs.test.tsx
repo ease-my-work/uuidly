@@ -104,13 +104,17 @@ describe('formatting changes presentation, not the value', () => {
   it('clears a copy confirmation that no longer describes the clipboard', async () => {
     const { user } = setup();
 
+    const copyButton = () => screen.getByRole('button', { name: 'Copy' });
+
     await user.click(screen.getByRole('button', { name: /^Copy UUID/ }));
-    expect(await screen.findByText('✓ Copied')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(copyButton()).toHaveAttribute('data-state', 'copied');
+    });
 
     await user.click(caseChip());
 
     await waitFor(() => {
-      expect(screen.getByText('click to copy')).toBeInTheDocument();
+      expect(copyButton()).toHaveAttribute('data-state', 'idle');
     });
   });
 

@@ -39,6 +39,7 @@ const renderPopup = () => {
 };
 
 const displayed = () => screen.getByTestId('uuid-value').textContent ?? '';
+const copyButton = () => screen.getByRole('button', { name: 'Copy' });
 
 describe('first paint', () => {
   it('shows a UUID with no interaction at all', () => {
@@ -58,15 +59,10 @@ describe('first paint', () => {
     expect(displayed()).toBe(initialUuid);
   });
 
-  it('keeps the copy hint out of the way until hover or focus', () => {
+  it('shows no instructional text — the icon carries the affordance', () => {
     renderPopup();
-    const hint = screen.getByText('click to copy');
-    // Present and height-reserved so revealing it shifts nothing, but not shown
-    // at rest — CSS reveals it on group-hover and group-focus-within.
-    expect(hint).toHaveAttribute('data-state', 'idle');
-    expect(hint.className).toContain('opacity-0');
-    expect(hint.className).toContain('group-hover:opacity-100');
-    expect(hint.className).toContain('group-focus-within:opacity-100');
+    expect(screen.queryByText(/click to copy/i)).not.toBeInTheDocument();
+    expect(copyButton()).toHaveAttribute('data-state', 'idle');
   });
 });
 
@@ -111,17 +107,15 @@ describe('copying', () => {
 
     await user.click(screen.getByRole('button', { name: /^Copy UUID/ }));
 
-    const hint = await screen.findByText('✓ Copied');
-    // The confirmation must not depend on the pointer being over the card.
-    expect(hint.className).toContain('opacity-100');
-    expect(hint.className).not.toContain('opacity-0');
+    // The whole visible confirmation is the icon turning into a green check.
+    // Its accessible name stays "Copy" so repeat activation is predictable, so
+    // the state is asserted here rather than through the name.
+    await waitFor(() => {
+      expect(copyButton()).toHaveAttribute('data-state', 'copied');
+    });
+    // Sighted users get the icon; screen readers get this.
     expect(screen.getByText(`Copied ${onScreen}`)).toBeInTheDocument();
-    // The icon button swaps to a check. Its accessible name deliberately stays
-    // "Copy" so repeat activation is predictable, so the state is asserted here.
-    expect(screen.getByRole('button', { name: 'Copy' })).toHaveAttribute(
-      'data-state',
-      'copied',
-    );
+    expect(screen.queryByText(/✓ Copied/)).not.toBeInTheDocument();
   });
 
   it('reports failure without losing the value', async () => {
@@ -133,8 +127,14 @@ describe('copying', () => {
 
     await user.click(screen.getByRole('button', { name: /^Copy UUID/ }));
 
-    // The visible hint, not the aria-live region — both say "Copy failed".
-    expect(await screen.findByText(/^Copy failed —/)).toBeInTheDocument();
+    // A green check cannot say "that did not work", so failure is the one state
+    // that still gets a louder treatment: a red alert icon and a tooltip that
+    // carries the remedy, since there is no longer a line of text to put it in.
+    await waitFor(() => {
+      expect(copyButton()).toHaveAttribute('data-state', 'failed');
+    });
+    expect(copyButton()).toHaveAttribute('title', expect.stringContaining('Ctrl+C'));
+    expect(screen.getByText('Copy failed')).toBeInTheDocument();
     expect(displayed()).toBe(onScreen);
   });
 });
@@ -158,12 +158,14 @@ describe('refreshing', () => {
     renderPopup();
 
     await user.click(screen.getByRole('button', { name: /^Copy UUID/ }));
-    expect(await screen.findByText('✓ Copied')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(copyButton()).toHaveAttribute('data-state', 'copied');
+    });
 
     await user.click(screen.getByRole('button', { name: 'Refresh' }));
 
     await waitFor(() => {
-      expect(screen.getByText('click to copy')).toBeInTheDocument();
+      expect(copyButton()).toHaveAttribute('data-state', 'idle');
     });
   });
 

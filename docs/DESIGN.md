@@ -15,7 +15,7 @@
 
 | When               | Change                                                                                                                                      | Why                                                                                                                                                                                                      |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| After Checkpoint C | `click to copy` hidden at rest, revealed on hover and `:focus-within`; height reserved so nothing shifts                                    | Once the interaction is known the hint is permanent noise. The copied and failed states still show unconditionally.                                                                                      |
+| After Checkpoint C | Hint text removed entirely; card sized to its single row; 12px gap added below it                                                           | The icon states carry the meaning — a green check for success, a red alert for failure. A caption under the value is noise, and the card was sitting flush against the FormatBar rule.                   |
 | After Checkpoint C | Frame 360px → **420px**; UUID on **one line** at 13.5px; Copy and Refresh become icon-only buttons inline with the value; ActionRow removed | The 36-character UUID wrapped to two lines at 360px. Single-line needs ~292px of text width, which 360px cannot give after padding and controls. Removing the button row also took ~60px off the height. |
 
 ---
@@ -36,8 +36,8 @@
 | ---------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Width            | **420px** fixed                                                  | Chrome popup max is 800px. 420 is the narrowest frame that fits the canonical 36-character UUID on one line at a readable size, after padding and the two inline icon buttons |
 | Height           | **auto**, max **600px**                                          | Chrome hard limit. Only the bulk list scrolls internally                                                                                                                      |
-| Collapsed height | ~232px                                                           | Bulk panel closed (default)                                                                                                                                                   |
-| Expanded height  | ~457px                                                           | Bulk panel open with 10 rows                                                                                                                                                  |
+| Collapsed height | ~214px                                                           | Bulk panel closed (default)                                                                                                                                                   |
+| Expanded height  | ~439px                                                           | Bulk panel open with 10 rows                                                                                                                                                  |
 | Body padding     | 0 (sections own their padding)                                   |                                                                                                                                                                               |
 | Overflow         | `overflow: hidden` on body; `overflow-y: auto` on bulk list only | Page itself never scrolls                                                                                                                                                     |
 
@@ -55,11 +55,8 @@
 │  └────────┴────────┴────────┴────────┴────────┘      │
 │                                                      │
 │  ┌────────────────────────────────────────────────┐  │
-│  │ 3f2b9c1a-7d4e-4f8b-9a2c-1e5d8f0b6a7c  ┌──┐┌──┐ │  │  UuidDisplay
-│  │                                       │⧉ ││↻ │ │  │  ~66px
-│  │                                       └──┘└──┘ │  │
-│  │                          click to copy (on hover) │  │
-│  └────────────────────────────────────────────────┘  │
+│  │ 3f2b9c1a-7d4e-4f8b-9a2c-1e5d8f0b6a7c   [⧉] [↻] │  │  UuidDisplay
+│  └────────────────────────────────────────────────┘  │  ~54px
 │                                                      │
 ├──────────────────────────────────────────────────────┤
 │  Format    [aA]  [‑]  [{ }]                          │  FormatBar    34px
@@ -74,13 +71,13 @@ nested-interactive, which is invalid ARIA and unusable with a screen reader.
 
 ### Vertical rhythm
 
-| Section          | Height | Padding       | Separator         |
-| ---------------- | ------ | ------------- | ----------------- |
-| Header           | 44px   | 12px 14px     | 1px bottom border |
-| VersionTabs      | 32px   | 16px 14px 0   | none              |
-| UuidDisplay      | ~58px  | 12px 12px 8px | none              |
-| FormatBar        | 34px   | 0 14px        | 1px top border    |
-| BulkPanel header | 36px   | 0 14px        | 1px top border    |
+| Section          | Height | Padding        | Separator         |
+| ---------------- | ------ | -------------- | ----------------- |
+| Header           | 44px   | 12px 14px      | 1px bottom border |
+| VersionTabs      | 32px   | 16px 14px 0    | none              |
+| UuidDisplay      | ~54px  | 12px all round | none              |
+| FormatBar        | 34px   | 0 14px         | 1px top border    |
+| BulkPanel header | 36px   | 0 14px         | 1px top border    |
 
 ---
 
@@ -213,20 +210,27 @@ Verified in T5.1 with an automated contrast check over these pairs.
 - The copy target is the value alone, not the card: `role="button"`, `tabindex="0"`,
   `aria-label="Copy UUID <value>"`, responds to `Enter`/`Space`. Wrapping the icon buttons
   in it would be nested-interactive.
-- Bottom-right hint `click to copy` in `--text-mute`, 11px, **hidden at rest**. Revealed on
-  card hover and on `:focus-within`, so keyboard users — who never hover — still get it.
-  Its height is always reserved, so revealing it shifts nothing.
-- The hint is `aria-hidden`: the copy control already carries an accessible name, and the
-  copied/failed states are announced by the live region (§7.4). It is decoration.
+- **No hint text at all.** The card is exactly as tall as its one row. A copy icon next to a
+  value does not need a caption, and one that never goes away is noise under the single
+  element the popup exists to show.
+- The card carries 12px padding on all four sides, and the panel adds 12px below it so the
+  card does not sit flush against the FormatBar rule.
 - Hover: card border → `--accent` at 40% opacity, cursor `pointer` over the value.
 
 ### 7.4 Copied state (F-11)
 
-- Card border and hint text switch to `--success`; hint text becomes `✓ Copied` and is shown
-  regardless of hover — a confirmation that requires the pointer to stay put is not one.
+- **Success is the copy icon alone**: it becomes a check in `--success`. No text, no border
+  change, no toast. A green tick beside the thing you just clicked is unambiguous, and
+  anything more is a second announcement of the same fact.
+- **Failure is louder, because it has to be.** A green check cannot say "that did not
+  work": the icon becomes an alert glyph in `--danger`, the card border turns `--danger`,
+  and the button gains a `title` carrying the remedy — there is no longer a line of text to
+  put it in. The value also becomes selectable so `Ctrl+C` is available.
 - Duration **1200ms**, then reverts. Re-copying restarts the timer.
-- A visually-hidden `aria-live="polite"` region announces `Copied <formatted uuid>`.
-- No toast, no overlay — the change happens in place so the value stays readable.
+- A visually-hidden `aria-live="polite"` region announces `Copied <formatted uuid>` or
+  `Copy failed`. This is the whole of what a screen reader gets, so it is not optional.
+- The button's accessible name stays `Copy` in every state. A control that renames itself
+  on activation is awkward to use twice.
 
 ### 7.5 Value actions (Copy, Refresh)
 

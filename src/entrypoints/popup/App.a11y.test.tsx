@@ -70,7 +70,7 @@ describe('accessibility', () => {
   it('has no violations after a copy, while the live region is populated', async () => {
     const user = setup();
     await user.click(screen.getByRole('button', { name: /^Copy UUID/ }));
-    await screen.findByText('✓ Copied');
+    await screen.findByText(/^Copied /);
     await expectNoViolations();
   });
 });
