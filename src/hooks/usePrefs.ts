@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { DEFAULT_FORMAT, type FormatOpts } from '@/lib/format';
-import { formatPref, kindPref } from '@/lib/prefs';
-import { DEFAULT_KIND, type UuidKind } from '@/lib/uuid';
+import { countPref, formatPref, kindPref } from '@/lib/prefs';
+import { clampCount, DEFAULT_KIND, type UuidKind } from '@/lib/uuid';
 
 /**
  * Preferences, loaded *after* the first paint.
@@ -14,6 +14,7 @@ import { DEFAULT_KIND, type UuidKind } from '@/lib/uuid';
 export function usePrefs() {
   const [kind, setKindState] = useState<UuidKind>(DEFAULT_KIND);
   const [format, setFormatState] = useState<FormatOpts>(DEFAULT_FORMAT);
+  const [count, setCountState] = useState(10);
   const [hydrated, setHydrated] = useState(false);
 
   /**
@@ -27,15 +28,18 @@ export function usePrefs() {
     let cancelled = false;
 
     void (async () => {
-      const [storedKind, storedFormat] = await Promise.all([
+      const [storedKind, storedFormat, storedCount] = await Promise.all([
         kindPref.getValue(),
         formatPref.getValue(),
+        countPref.getValue(),
       ]);
 
       if (cancelled) return;
       if (!touched.current) {
         setKindState(storedKind);
         setFormatState(storedFormat);
+        // Clamped on read: storage is only as trustworthy as whatever last wrote it.
+        setCountState(clampCount(storedCount));
       }
       setHydrated(true);
     })();
@@ -57,5 +61,12 @@ export function usePrefs() {
     void formatPref.setValue(next);
   }, []);
 
-  return { kind, format, hydrated, setKind, setFormat };
+  const setCount = useCallback((next: number) => {
+    touched.current = true;
+    const clamped = clampCount(next);
+    setCountState(clamped);
+    void countPref.setValue(clamped);
+  }, []);
+
+  return { kind, format, count, hydrated, setKind, setFormat, setCount };
 }

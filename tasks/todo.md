@@ -119,18 +119,28 @@ Order is top-to-bottom except **Phase 6**, which may run in parallel from Phase 
 
 ---
 
-## Phase 4 — Bulk + CSV
+## Phase 4 — Bulk + CSV ✅
 
-- [ ] **T4.1** `BulkPanel` — count 1–100, list with per-row copy, Copy all, Copy as JSON — _deps: T3.2_
-  - ✅ Clamps `0`, `-5`, `101`, `abc`, `5.7`; 100 rows render without jank
-  - ✅ Rows respect active format; Copy all = `count` lines; JSON parses to length `count`
-  - ✅ List capped at 180px with internal scroll per DESIGN.md §7.7
-  - 🔎 Component tests + manual 100-row scroll
-- [ ] **T4.2** `lib/csv.ts` + download, no `downloads` permission — _deps: T4.1_
-  - ✅ Header `index,uuid,version,generated_at`; RFC 4180 escaping; `\r\n`; UTF-8 BOM
-  - ✅ Filename `uuidly-<version>-<count>-<yyyymmdd-hhmmss>.csv`; object URL revoked
-  - ✅ Manifest still `["storage"]`
-  - 🔎 `pnpm test src/lib/csv.test.ts`; open the CSV in Excel + LibreOffice
+- [x] **T4.1** `BulkPanel` — count 1–100, list with per-row copy, Copy all, Copy as JSON — _deps: T3.2_
+  - [x] ✅ Clamps `0`, `-5`, `101`, `9999`, `abc`, empty and `5.7` (truncates, not rounds)
+  - [x] ✅ Commits on blur **and** Enter; the field flashes only when a value was corrected
+  - [x] ✅ 100 rows render; rows respect the active format and reformat without regenerating
+  - [x] ✅ Copy all = `count` lines; Copy JSON parses to an array of length `count`
+  - [x] ✅ Bulk actions disabled until something exists; count persists via `countPref`
+  - [x] ✅ `B` toggles the panel; list capped at 180px with internal scroll per DESIGN.md §7.7
+  - [x] ✅ Row copy button is hidden until hover but never hidden from the keyboard
+- [x] **T4.2** `lib/csv.ts` + download, no `downloads` permission — _deps: T4.1_
+  - [x] ✅ Header `index,uuid,version,generated_at`; RFC 4180 quoting and doubled quotes;
+        `\r\n` throughout with a trailing newline; UTF-8 BOM on the blob
+  - [x] ✅ A `"quoted"` UUID from the format wrapper survives without breaking the columns
+  - [x] ✅ Filename `uuidly-<version>-<count>-<yyyymmdd-hhmmss>.csv`, stamped in UTC so it
+        agrees with the `generated_at` column
+  - [x] ✅ Object URL revoked on the next tick, not synchronously
+  - [x] ✅ A blocked download reports itself and points at Copy all rather than throwing
+  - [x] ✅ Manifest still `["storage"]` — no `downloads` permission
+  - **Not yet done:** opening the CSV in Excel and LibreOffice. Encoding and escaping are
+    asserted in tests; the spreadsheet round-trip is part of the Checkpoint C manual pass.
+  - **Bundle:** 17.26 kB gz. Inside the 20 kB tripwire, with 2.74 kB of headroom for Phase 5.
 
 ---
 

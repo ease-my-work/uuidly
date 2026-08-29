@@ -26,8 +26,8 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 | F-10 | **Click-to-copy** — the whole value display is the copy target                | P0       | **done** |
 | F-11 | **Copy feedback** — in-place "✓ Copied" for 1200ms, announced via `aria-live` | P0       | **done** |
 | F-12 | **Keyboard copy** — `C` or `Ctrl`/`Cmd`+`C`                                   | P0       | **done** |
-| F-13 | **Copy all** — newline-joined list, bulk mode                                 | P0       | planned  |
-| F-14 | **Copy as JSON** — `["…","…"]`, bulk mode                                     | P1       | planned  |
+| F-13 | **Copy all** — newline-joined list, bulk mode                                 | P0       | **done** |
+| F-14 | **Copy as JSON** — `["…","…"]`, bulk mode                                     | P1       | **done** |
 
 ## Formatting
 
@@ -40,23 +40,23 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 ## Bulk
 
-| ID   | Feature                                                         | Priority | Status  |
-| ---- | --------------------------------------------------------------- | -------- | ------- |
-| F-30 | **Count 1–100** — validated and clamped                         | P0       | planned |
-| F-31 | **Bulk list** — scrollable, per-row copy                        | P0       | planned |
-| F-32 | **CSV download** — `index,uuid,version,generated_at`            | P0       | planned |
-| F-33 | **Filename** — `uuidly-<version>-<count>-<yyyymmdd-hhmmss>.csv` | P0       | planned |
-| F-34 | **No `downloads` permission** — blob URL + `<a download>`       | P0       | planned |
+| ID   | Feature                                                         | Priority | Status   |
+| ---- | --------------------------------------------------------------- | -------- | -------- |
+| F-30 | **Count 1–100** — validated and clamped                         | P0       | **done** |
+| F-31 | **Bulk list** — scrollable, per-row copy                        | P0       | **done** |
+| F-32 | **CSV download** — `index,uuid,version,generated_at`            | P0       | **done** |
+| F-33 | **Filename** — `uuidly-<version>-<count>-<yyyymmdd-hhmmss>.csv` | P0       | **done** |
+| F-34 | **No `downloads` permission** — blob URL + `<a download>`       | P0       | **done** |
 
 ## Persistence & UX
 
-| ID   | Feature                                                                | Priority | Status                               |
-| ---- | ---------------------------------------------------------------------- | -------- | ------------------------------------ |
-| F-40 | **Remembers version, format and count** across sessions                | P1       | version + format done; count in T4.1 |
-| F-41 | **Non-blocking hydration** — never awaits storage before first paint   | P1       | **done**                             |
-| F-42 | **Dark-first theme** — follows `prefers-color-scheme`, manual override | P1       | planned                              |
-| F-43 | **Full keyboard nav** — `1`–`5`, `R`, `C`, `B`, `Esc`                  | P1       | tabs, R, C, Esc done; B in T4.1      |
-| F-44 | **WCAG 2.1 AA** — contrast ≥ 4.5:1, labelled controls, live regions    | P1       | planned                              |
+| ID   | Feature                                                                | Priority | Status   |
+| ---- | ---------------------------------------------------------------------- | -------- | -------- |
+| F-40 | **Remembers version, format and count** across sessions                | P1       | **done** |
+| F-41 | **Non-blocking hydration** — never awaits storage before first paint   | P1       | **done** |
+| F-42 | **Dark-first theme** — follows `prefers-color-scheme`, manual override | P1       | planned  |
+| F-43 | **Full keyboard nav** — `1`–`5`, `R`, `C`, `B`, `Esc`                  | P1       | **done** |
+| F-44 | **WCAG 2.1 AA** — contrast ≥ 4.5:1, labelled controls, live regions    | P1       | planned  |
 
 ## Privacy & trust
 

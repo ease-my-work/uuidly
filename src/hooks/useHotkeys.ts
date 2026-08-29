@@ -7,6 +7,7 @@ interface HotkeyHandlers {
   onSelect: (kind: UuidKind) => void;
   onRefresh: () => void;
   onCopy: () => void;
+  onToggleBulk: () => void;
   onClose: () => void;
 }
 
@@ -33,7 +34,13 @@ function isOnControl(): boolean {
  * The popup is small enough that a single place to read the whole keyboard map
  * is worth more than locality.
  */
-export function useHotkeys({ onSelect, onRefresh, onCopy, onClose }: HotkeyHandlers) {
+export function useHotkeys({
+  onSelect,
+  onRefresh,
+  onCopy,
+  onToggleBulk,
+  onClose,
+}: HotkeyHandlers) {
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       if (event.altKey || isTyping(event.target)) return;
@@ -71,6 +78,10 @@ export function useHotkeys({ onSelect, onRefresh, onCopy, onClose }: HotkeyHandl
           event.preventDefault();
           onCopy();
           break;
+        case 'b':
+          event.preventDefault();
+          onToggleBulk();
+          break;
         case ' ':
           // Space activates a focused control; only claim it when nothing is focused.
           if (!isOnControl()) {
@@ -83,5 +94,5 @@ export function useHotkeys({ onSelect, onRefresh, onCopy, onClose }: HotkeyHandl
 
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [onSelect, onRefresh, onCopy, onClose]);
+  }, [onSelect, onRefresh, onCopy, onToggleBulk, onClose]);
 }

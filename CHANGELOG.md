@@ -40,6 +40,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   never regenerates it, and what reaches the clipboard is exactly the formatted string on
   screen. The `urn:uuid:` prefix stays lowercase even when the UUID is uppercased, per
   RFC 9562 §4.
+- Bulk generation of 1–100 UUIDs, with a per-row copy button, Copy all as newline-separated
+  text, and Copy JSON. The count is clamped rather than rejected — `0`, `-5`, `101`, `abc`
+  and an empty field all resolve to something sensible, and `5.7` truncates to 5 because a
+  stray keystroke should not round your request up.
+- CSV export with `index,uuid,version,generated_at`. RFC 4180 throughout, which matters
+  here rather than theoretically: the `"quotes"` format wrapper produces a field that naive
+  joining would corrupt. A UTF-8 BOM is written so Excel reads the file as UTF-8, and the
+  filename is stamped in UTC so it agrees with the `generated_at` column.
+- The download uses a blob URL and a synthetic anchor click, so it needs no `downloads`
+  permission. If a browser blocks it, the panel says so and points at Copy all.
+- `B` toggles the bulk panel.
 - Preferences persist: the selected version and formatting are stored in
   `chrome.storage.local` and restored on the next open. They are read _after_ the first
   paint, never before it, and a choice made while storage is still loading is not
