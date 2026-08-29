@@ -46,16 +46,31 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Check the tag matches package.json
+        id: version
         # A tag that disagrees with the manifest version produces a release whose
         # name is a lie, and a store submission that is hard to trace back.
+        #
+        # A release candidate is the exception. Chrome manifest versions are
+        # dot-separated integers only, so `package.json` cannot carry an `-rc.1`
+        # suffix; the candidate is checked against the base version instead, and
+        # is marked a prerelease rather than submitted.
         run: |
           TAG="${{ inputs.tag || github.ref_name }}"
           PKG="v$(node -p "require('./package.json').version")"
-          if [ "$TAG" != "$PKG" ]; then
-            echo "::error::Tag $TAG does not match package.json ($PKG). Bump one of them."
-            exit 1
-          fi
-          echo "Releasing $TAG"
+          case "$TAG" in
+            "$PKG")
+              echo "prerelease=false" >> "$GITHUB_OUTPUT"
+              echo "Releasing $TAG"
+              ;;
+            "$PKG"-alpha.* | "$PKG"-beta.* | "$PKG"-rc.*)
+              echo "prerelease=true" >> "$GITHUB_OUTPUT"
+              echo "Releasing $TAG as a prerelease of $PKG"
+              ;;
+            *)
+              echo "::error::Tag $TAG does not match package.json ($PKG). Bump one of them, or tag a candidate as $PKG-rc.1."
+              exit 1
+              ;;
+          esac
 
       # The full CI gate again, on the exact commit being published. CI having
       # passed on the branch is not the same as passing on this tag.
@@ -84,6 +99,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag || github.ref_name }}
+          # Empty for a real release, so the flag below expands to nothing.
+          PRERELEASE: ${{ steps.version.outputs.prerelease == 'true' && '1' || '' }}
         # `gh` ships on the runner, so this needs no third-party action and no
         # extra SHA to keep current.
         run: |
@@ -91,12 +108,15 @@ jobs:
             --title "$TAG" \
             --generate-notes \
             --verify-tag \
+            ${PRERELEASE:+--prerelease} \
             .output/*-chrome.zip
 
       - name: Submit to the Chrome Web Store
         # Skipped rather than failed when the secrets are absent, so forks and
-        # dry runs still exercise everything above this line.
-        if: env.CHROME_EXTENSION_ID != ''
+        # dry runs still exercise everything above this line. A candidate is
+        # skipped too: an RC exists to test this workflow, not to reach users,
+        # and a submitted version number cannot be reused.
+        if: env.CHROME_EXTENSION_ID != '' && steps.version.outputs.prerelease != 'true'
         env:
           CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
           CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
@@ -105,8 +125,13 @@ jobs:
         run: pnpm wxt submit --chrome-zip .output/*-chrome.zip
 
       - name: Note when publishing was skipped
-        if: env.CHROME_EXTENSION_ID == ''
+        if: env.CHROME_EXTENSION_ID == '' || steps.version.outputs.prerelease == 'true'
         env:
           CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          PRERELEASE: ${{ steps.version.outputs.prerelease }}
         run: |
-          echo "::notice::Store secrets are not configured, so the ZIP was attached to the release but not submitted. See docs/PUBLISHING.md."
+          if [ "$PRERELEASE" = "true" ]; then
+            echo "::notice::${{ inputs.tag || github.ref_name }} is a release candidate, so the ZIP was attached to the prerelease but not submitted to the store. See docs/PUBLISHING.md."
+          else
+            echo "::notice::Store secrets are not configured, so the ZIP was attached to the release but not submitted. See docs/PUBLISHING.md."
+          fi
