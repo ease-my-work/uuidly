@@ -1,6 +1,6 @@
 # uuidly — Popup Design Specification
 
-> **Status: FROZEN** as of T0.2. This is the visual contract for the popup.
+> **Status: FROZEN** as of T0.2, amended after Checkpoint C. This is the visual contract for the popup.
 >
 > Every colour token below exists in [`src/assets/tailwind.css`](../src/assets/tailwind.css)
 > and is exposed as a Tailwind utility. Do not hard-code a colour anywhere else.
@@ -11,10 +11,18 @@
 
 ---
 
+## 0. Amendments
+
+| When               | Change                                                                                                                                      | Why                                                                                                                                                                                                      |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| After Checkpoint C | Frame 360px → **420px**; UUID on **one line** at 13.5px; Copy and Refresh become icon-only buttons inline with the value; ActionRow removed | The 36-character UUID wrapped to two lines at 360px. Single-line needs ~292px of text width, which 360px cannot give after padding and controls. Removing the button row also took ~60px off the height. |
+
+---
+
 ## 1. Design principles
 
 1. **The value is the interface.** The UUID is the largest thing on screen. Everything else is chrome around it.
-2. **Zero clicks to the primary action.** A UUID is on screen at first paint. Copy is one click anywhere on it.
+2. **Zero clicks to the primary action.** A UUID is on screen at first paint. Copying is one click — on the value itself or on the icon beside it.
 3. **Black-first.** Deep black surface, restrained accent. No gradients, no glass, no shadow stacks.
 4. **Nothing moves unless it means something.** Motion is reserved for state changes (copied, expanded).
 5. **Density without crowding.** 4px spacing grid, generous line-height on the monospace value only.
@@ -23,57 +31,55 @@
 
 ## 2. Frame
 
-| Property         | Value                                                            | Note                                                                           |
-| ---------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Width            | **360px** fixed                                                  | Chrome popup max is 800px; 360 keeps the 36-char UUID on two comfortable lines |
-| Height           | **auto**, max **600px**                                          | Chrome hard limit. Only the bulk list scrolls internally                       |
-| Collapsed height | ~296px                                                           | Bulk panel closed (default)                                                    |
-| Expanded height  | ~520px                                                           | Bulk panel open with 10 rows                                                   |
-| Body padding     | 0 (sections own their padding)                                   |                                                                                |
-| Overflow         | `overflow: hidden` on body; `overflow-y: auto` on bulk list only | Page itself never scrolls                                                      |
+| Property         | Value                                                            | Note                                                                                                                                                                          |
+| ---------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Width            | **420px** fixed                                                  | Chrome popup max is 800px. 420 is the narrowest frame that fits the canonical 36-character UUID on one line at a readable size, after padding and the two inline icon buttons |
+| Height           | **auto**, max **600px**                                          | Chrome hard limit. Only the bulk list scrolls internally                                                                                                                      |
+| Collapsed height | ~240px                                                           | Bulk panel closed (default)                                                                                                                                                   |
+| Expanded height  | ~465px                                                           | Bulk panel open with 10 rows                                                                                                                                                  |
+| Body padding     | 0 (sections own their padding)                                   |                                                                                                                                                                               |
+| Overflow         | `overflow: hidden` on body; `overflow-y: auto` on bulk list only | Page itself never scrolls                                                                                                                                                     |
 
 ---
 
 ## 3. Layout — collapsed (default state)
 
 ```
-┌────────────────────────────────────────────────┐ ◀ 360px ▶
-│  ◆  uuidly                             ☾    ⓘ  │  Header        44px
-├────────────────────────────────────────────────┤
-│                                                │
-│   ┌──────┬──────┬──────┬──────┬──────┐         │  VersionTabs   32px
-│   │  v4  │  v1  │  v7  │ NIL  │ MAX  │         │  (+16 pad)
-│   └──────┴──────┴──────┴──────┴──────┘         │
-│                                                │
-│   ┌────────────────────────────────────────┐   │
-│   │                                        │   │
-│   │   3f2b9c1a-7d4e-4f8b-9a2c-1e5d8f0b     │   │  UuidDisplay
-│   │   6a7c                                 │   │  min-h 76px
-│   │                                        │   │  click = copy
-│   │                          click to copy │   │
-│   └────────────────────────────────────────┘   │
-│                                                │
-│   ┌──────────────────┐ ┌───────────────────┐   │
-│   │   ⧉   Copy       │ │   ↻   Refresh     │   │  ActionRow     36px
-│   └──────────────────┘ └───────────────────┘   │
-│                                                │
-├────────────────────────────────────────────────┤
-│  Format    [aA]  [‑]  [{ }]                    │  FormatBar     34px
-├────────────────────────────────────────────────┤
-│  ▸  Bulk generate                       1–100  │  BulkPanel     36px
-└────────────────────────────────────────────────┘   (collapsed)
+┌──────────────────────────────────────────────────────┐ ◀ 420px ▶
+│  ◆  uuidly                                  ☾    ⓘ  │  Header       44px
+├──────────────────────────────────────────────────────┤
+│                                                      │
+│  ┌────────┬────────┬────────┬────────┬────────┐      │  VersionTabs  32px
+│  │   v4   │   v1   │   v7   │  NIL   │  MAX   │      │  (+16 pad)
+│  └────────┴────────┴────────┴────────┴────────┘      │
+│                                                      │
+│  ┌────────────────────────────────────────────────┐  │
+│  │ 3f2b9c1a-7d4e-4f8b-9a2c-1e5d8f0b6a7c  ┌──┐┌──┐ │  │  UuidDisplay
+│  │                                       │⧉ ││↻ │ │  │  ~66px
+│  │                                       └──┘└──┘ │  │
+│  │                                   click to copy │  │
+│  └────────────────────────────────────────────────┘  │
+│                                                      │
+├──────────────────────────────────────────────────────┤
+│  Format    [aA]  [‑]  [{ }]                          │  FormatBar    34px
+├──────────────────────────────────────────────────────┤
+│  ▸  Bulk generate                             1–100  │  BulkPanel    36px
+└──────────────────────────────────────────────────────┘   (collapsed)
 ```
+
+The value and the two icon buttons share one row. Only the value is the copy
+target: a card with `role="button"` wrapping real buttons would be
+nested-interactive, which is invalid ARIA and unusable with a screen reader.
 
 ### Vertical rhythm
 
-| Section          | Height   | Padding        | Separator         |
-| ---------------- | -------- | -------------- | ----------------- |
-| Header           | 44px     | 12px 14px      | 1px bottom border |
-| VersionTabs      | 32px     | 16px 14px 0    | none              |
-| UuidDisplay      | min 76px | 14px 16px      | none              |
-| ActionRow        | 36px     | 10px 16px 14px | none              |
-| FormatBar        | 34px     | 0 14px         | 1px top border    |
-| BulkPanel header | 36px     | 0 14px         | 1px top border    |
+| Section          | Height | Padding        | Separator         |
+| ---------------- | ------ | -------------- | ----------------- |
+| Header           | 44px   | 12px 14px      | 1px bottom border |
+| VersionTabs      | 32px   | 16px 14px 0    | none              |
+| UuidDisplay      | ~66px  | 12px 12px 10px | none              |
+| FormatBar        | 34px   | 0 14px         | 1px top border    |
+| BulkPanel header | 36px   | 0 14px         | 1px top border    |
 
 ---
 
@@ -162,14 +168,14 @@ Verified in T5.1 with an automated contrast check over these pairs.
 
 ## 6. Typography
 
-| Role           | Stack                                                                                    | Size / Line | Weight | Tracking            |
-| -------------- | ---------------------------------------------------------------------------------------- | ----------- | ------ | ------------------- |
-| UUID value     | `ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace` | 15px / 1.55 | 500    | `0.01em`            |
-| Bulk row value | same monospace                                                                           | 12px / 1.4  | 400    | `0`                 |
-| Buttons / tabs | `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`                               | 12px / 1    | 500    | `0.01em`            |
-| Section labels | same sans                                                                                | 11px / 1    | 500    | `0.04em`, uppercase |
-| Hints / meta   | same sans                                                                                | 11px / 1.3  | 400    | `0`                 |
-| Wordmark       | same sans                                                                                | 13px / 1    | 600    | `-0.01em`           |
+| Role           | Stack                                                                                    | Size / Line  | Weight | Tracking            |
+| -------------- | ---------------------------------------------------------------------------------------- | ------------ | ------ | ------------------- |
+| UUID value     | `ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace` | 13.5px / 1.5 | 500    | `0.01em`            |
+| Bulk row value | same monospace                                                                           | 12px / 1.4   | 400    | `0`                 |
+| Buttons / tabs | `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`                               | 12px / 1     | 500    | `0.01em`            |
+| Section labels | same sans                                                                                | 11px / 1     | 500    | `0.04em`, uppercase |
+| Hints / meta   | same sans                                                                                | 11px / 1.3   | 400    | `0`                 |
+| Wordmark       | same sans                                                                                | 13px / 1     | 600    | `-0.01em`           |
 
 **No web fonts.** System stacks only — a font request would violate F-50 (zero network) and cost first-paint time (F-62).
 
@@ -195,11 +201,20 @@ Verified in T5.1 with an automated contrast check over these pairs.
 
 ### 7.3 UuidDisplay
 
-- Card: `--surface`, `1px solid var(--border)`, radius 10px, padding 14px 16px, min-height 76px.
-- Value wraps to at most 2 lines at 360px width; `word-break: break-all` is **not** used — break only at hyphens via explicit `<wbr>`-free CSS `overflow-wrap: anywhere` so the hyphen grouping stays readable.
-- Whole card is the copy target: `role="button"`, `tabindex="0"`, `aria-label="Copy UUID <value>"`, responds to `Enter`/`Space`.
-- Bottom-right hint `click to copy` in `--text-mute`, 11px. Hidden while in the copied state.
-- Hover: border → `--accent` at 40% opacity, cursor `pointer`.
+- Card: `--surface`, `1px solid var(--border)`, radius 10px, padding 12px 12px 10px.
+- Value and the two icon buttons (§7.5) sit on one row; the hint line sits below.
+- **The value never wraps.** `white-space: nowrap` with `overflow-x: auto`. The canonical
+  36-character form fits at 13.5px within the 420px frame; longer formats — `urn:uuid:` is
+  45 characters — scroll sideways.
+- Truncation with an ellipsis is **not** used. A clipped UUID that is still scrollable
+  reads as incomplete; one ending in `…` reads as a whole value that happens to be long,
+  which is a worse failure.
+- The copy target is the value alone, not the card: `role="button"`, `tabindex="0"`,
+  `aria-label="Copy UUID <value>"`, responds to `Enter`/`Space`. Wrapping the icon buttons
+  in it would be nested-interactive.
+- Bottom-right hint `click to copy` in `--text-mute`, 11px. Carries the copied and failed
+  states (§7.4).
+- Hover: card border → `--accent` at 40% opacity, cursor `pointer` over the value.
 
 ### 7.4 Copied state (F-11)
 
@@ -208,12 +223,19 @@ Verified in T5.1 with an automated contrast check over these pairs.
 - A visually-hidden `aria-live="polite"` region announces `Copied <formatted uuid>`.
 - No toast, no overlay — the change happens in place so the value stays readable.
 
-### 7.5 ActionRow
+### 7.5 Value actions (Copy, Refresh)
 
-- Two buttons, equal width, 8px gap, height 36px, radius 8px.
-- **Copy** — primary: `--surface-2` fill, `--accent` text + icon, border `--border`. Hover `--surface-3`.
-- **Refresh** — secondary: same fill, `--text` text.
-- Disabled (Refresh on NIL/MAX): opacity 0.4, `cursor: not-allowed`, `aria-disabled="true"`, `title="NIL and MAX are fixed constants"`.
+Icon-only, inline to the right of the value rather than a separate full-width row. This is
+what buys the single line: it removes a 60px band and puts both actions where the value is.
+
+- Two 30×30 buttons, 8px gap, radius 7px, `--surface-2` fill, `1px solid var(--border)`.
+- **Copy** — `--accent` icon; swaps to a check in `--success` while copied. Its accessible
+  name stays `Copy` throughout, so repeat activation is predictable; the confirmation is
+  carried by the hint line and the live region, not by a changing name.
+- **Refresh** — `--text` icon.
+- Disabled (Refresh on NIL/MAX): opacity 0.4, `cursor: not-allowed`, `aria-disabled="true"`,
+  `title="NIL and MAX are fixed constants — there is nothing to refresh"`.
+- Both carry an `aria-label`: an icon alone has no accessible name.
 - Icons: inline 14px SVG, `currentColor`, `stroke-width: 1.75`. No icon font, no sprite sheet.
 
 ### 7.6 FormatBar
@@ -318,7 +340,8 @@ Mark: a rotated square (diamond) with a hollow centre — reads as both a "u" co
 
 Checked at **Checkpoint C** (T5.1/T5.2):
 
-- [ ] Popup width is exactly 360px; collapsed height ≤ 320px; expanded height ≤ 600px
+- [ ] Popup width is exactly 420px; collapsed height ≤ 260px; expanded height ≤ 600px
+- [ ] The canonical UUID sits on **one line**; `urn:uuid:` scrolls sideways and never wraps
 - [ ] Every colour pair in §5 meets ≥ 4.5:1 in both themes
 - [ ] Zero web font requests; DevTools Network is empty on popup open
 - [ ] Every interactive element has a visible 2px accent focus ring

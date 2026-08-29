@@ -107,7 +107,12 @@ describe('copying', () => {
 
     expect(await screen.findByText('✓ Copied')).toBeInTheDocument();
     expect(screen.getByText(`Copied ${onScreen}`)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Copied' })).toBeInTheDocument();
+    // The icon button swaps to a check. Its accessible name deliberately stays
+    // "Copy" so repeat activation is predictable, so the state is asserted here.
+    expect(screen.getByRole('button', { name: 'Copy' })).toHaveAttribute(
+      'data-state',
+      'copied',
+    );
   });
 
   it('reports failure without losing the value', async () => {

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActionRow } from '@/components/ActionRow';
 import { BulkPanel } from '@/components/BulkPanel';
 import { FormatBar } from '@/components/FormatBar';
 import { Header } from '@/components/Header';
@@ -149,16 +148,12 @@ export default function App({ initialUuid }: AppProps) {
         value={value}
         copyState={state}
         onCopy={handleCopy}
-        panelId={PANEL_ID}
-        labelledBy={tabId(kind)}
-      />
-      <ActionRow
-        copied={state === 'copied'}
         canRefresh={canRefresh}
         shake={shake}
-        onCopy={handleCopy}
         onRefresh={handleRefresh}
         onShakeEnd={() => setShake(false)}
+        panelId={PANEL_ID}
+        labelledBy={tabId(kind)}
       />
       <FormatBar format={format} onChange={handleFormat} />
       <BulkPanel

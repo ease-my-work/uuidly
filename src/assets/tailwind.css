@@ -94,7 +94,9 @@
 
 html,
 body {
-  width: 360px;
+  /* 420px so the canonical 36-character UUID fits on one line at a readable
+     13.5px, after padding and the two inline icon buttons. See DESIGN.md §2. */
+  width: 420px;
   margin: 0;
   overflow: hidden;
 }

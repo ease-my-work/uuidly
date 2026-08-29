@@ -1,11 +1,18 @@
 import type { CopyState } from '@/hooks/useCopy';
+import { CheckIcon, CopyIcon, RefreshIcon } from './icons';
 
-/** docs/DESIGN.md §7.3 and §7.4. */
+/** docs/DESIGN.md §7.3, §7.4, §7.5. */
 
 interface UuidDisplayProps {
   value: string;
   copyState: CopyState;
   onCopy: () => void;
+  /** False for NIL and MAX, which are fixed constants. */
+  canRefresh: boolean;
+  /** Set briefly when refresh was attempted on a constant — DESIGN.md §8. */
+  shake: boolean;
+  onRefresh: () => void;
+  onShakeEnd: () => void;
   /** Ties this panel to the version tablist. */
   panelId: string;
   labelledBy: string;
@@ -17,10 +24,17 @@ const HINT: Record<CopyState, string> = {
   failed: 'Copy failed — select and press Ctrl+C',
 };
 
+const ICON_BUTTON =
+  'bg-surface-2 border-border flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[7px] border transition-colors duration-[120ms]';
+
 export function UuidDisplay({
   value,
   copyState,
   onCopy,
+  canRefresh,
+  shake,
+  onRefresh,
+  onShakeEnd,
   panelId,
   labelledBy,
 }: UuidDisplayProps) {
@@ -36,36 +50,77 @@ export function UuidDisplay({
   const hint = copied ? 'text-success' : failed ? 'text-danger' : 'text-mute';
 
   return (
-    <div role="tabpanel" id={panelId} aria-labelledby={labelledBy} className="px-4 pt-4">
+    <div role="tabpanel" id={panelId} aria-labelledby={labelledBy} className="px-3 pt-3">
       <div
-        role="button"
-        tabIndex={0}
-        aria-label={`Copy UUID ${value}`}
-        onClick={onCopy}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            onCopy();
-          }
-        }}
-        className={`bg-surface rounded-card flex min-h-[76px] cursor-pointer flex-col justify-between border px-4 py-3.5 transition-colors duration-[120ms] ${border}`}
+        className={`bg-surface rounded-card border px-3 pt-3 pb-2.5 transition-colors duration-[120ms] ${border}`}
       >
-        <span
-          data-testid="uuid-value"
-          // `anywhere` rather than `break-all` so the value still wraps at a
-          // sensible point instead of mid-group — DESIGN.md §7.3.
-          className={`font-mono text-[15px] leading-[1.55] font-medium tracking-[0.01em] [font-variant-numeric:tabular-nums] [overflow-wrap:anywhere] ${
-            failed ? 'select-text' : 'select-none'
-          }`}
-        >
-          {value}
-        </span>
+        <div className="flex items-center gap-2">
+          {/*
+            The copy target is the value alone, not the whole card. A card with
+            role="button" wrapping these two buttons would be nested-interactive:
+            invalid ARIA, and unusable with a screen reader.
+          */}
+          <div
+            role="button"
+            tabIndex={0}
+            aria-label={`Copy UUID ${value}`}
+            onClick={onCopy}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                onCopy();
+              }
+            }}
+            // Never wraps. Formats longer than the frame — `urn:uuid:` is 45
+            // characters — scroll sideways rather than wrapping or truncating.
+            // A truncated UUID looks exactly like a whole one, which is worse
+            // than an obviously clipped one.
+            className="min-w-0 flex-1 cursor-pointer overflow-x-auto whitespace-nowrap"
+          >
+            <span
+              data-testid="uuid-value"
+              className={`font-mono text-[13.5px] leading-[1.5] font-medium tracking-[0.01em] [font-variant-numeric:tabular-nums] ${
+                failed ? 'select-text' : 'select-none'
+              }`}
+            >
+              {value}
+            </span>
+          </div>
 
-        <span className={`mt-2 self-end text-[11px] ${hint}`}>{HINT[copyState]}</span>
+          <button
+            type="button"
+            aria-label="Copy"
+            // The name stays "Copy" so repeat activation is predictable; the
+            // confirmation is carried by the live region and the hint line.
+            data-state={copied ? 'copied' : 'idle'}
+            onClick={onCopy}
+            className={`${ICON_BUTTON} hover:bg-surface-3 ${copied ? 'text-success' : 'text-accent'}`}
+          >
+            {copied ? <CheckIcon /> : <CopyIcon />}
+          </button>
+
+          <button
+            type="button"
+            aria-label="Refresh"
+            onClick={onRefresh}
+            aria-disabled={!canRefresh}
+            title={
+              canRefresh
+                ? undefined
+                : 'NIL and MAX are fixed constants — there is nothing to refresh'
+            }
+            onAnimationEnd={onShakeEnd}
+            className={`${ICON_BUTTON} text-text ${
+              canRefresh ? 'hover:bg-surface-3' : 'cursor-not-allowed opacity-40'
+            } ${shake ? 'animate-shake' : ''}`}
+          >
+            <RefreshIcon />
+          </button>
+        </div>
+
+        <p className={`mt-1.5 text-right text-[11px] ${hint}`}>{HINT[copyState]}</p>
       </div>
 
-      {/* Announced to screen readers; the visual hint above is aria-hidden from
-          this region's perspective because it is not inside it. */}
       <span aria-live="polite" className="sr-only">
         {copied ? `Copied ${value}` : failed ? 'Copy failed' : ''}
       </span>
