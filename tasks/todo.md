@@ -207,14 +207,29 @@ Raised from the first real look at the popup in a browser. All shipped, all docu
 
 ---
 
-## Phase 6 — CI & supply chain _(parallel from Phase 2 onward)_
+## Phase 6 — CI & supply chain ✅ _(code complete; settings await a maintainer)_
 
-- [ ] **T6.1** `.github/workflows/ci.yml` — lint, typecheck, test+coverage, build, size-limit — _deps: T0.1_
-  - ✅ Runs on every PR; a deliberate lint error turns it red
-- [ ] **T6.2** `codeql.yml` + `dependency-review-action` + secret-scanning push protection — _deps: T6.1_
-  - ✅ CodeQL completes with zero alerts; a vulnerable-dependency PR is blocked
-- [ ] **T6.3** Branch protection on `master` + README status badges — _deps: T6.1, T6.2_
-  - ✅ Direct push rejected; every badge resolves (README badges are already written)
+- [x] **T6.1** `.github/workflows/ci.yml` — _deps: T0.1_
+  - [x] `lint` → `format:check` → `typecheck` → `test:coverage` → `build` → `guard` → `size`
+  - [x] `pnpm install --frozen-lockfile` — fails rather than silently resolving a different
+        tree than the one that was reviewed
+  - [x] Coverage floor: 90% statements/lines, 85% branches (currently 97/99/93)
+  - [x] `concurrency` cancels superseded runs; `permissions: contents: read` at the top
+  - [x] `@vitest/coverage-v8` installed — `test:coverage` would have failed in CI without it
+- [x] **T6.2** `codeql.yml` + dependency review — _deps: T6.1_
+  - [x] CodeQL `javascript-typescript` with `security-extended`, on push, PR and a weekly cron
+  - [x] `dependency-review-action` on PRs: fails at moderate severity, denies copyleft licences
+  - [x] `security-events: write` scoped to the CodeQL job alone, nothing wider
+- [x] **T6.3** Pinned actions + maintainer checklist — _deps: T6.1, T6.2_
+  - [x] Every `uses:` pinned to a 40-character commit SHA with the tag in a trailing comment.
+        A tag can be repointed at different code by anyone who can push to that action's
+        repository; a SHA cannot. Dependabot turns updates into reviewable PRs
+  - [x] README CI and CodeQL badges now have workflows to resolve against
+  - [ ] **Branch protection, secret-scanning push protection, Discussions, labels** — needs
+        repo admin, written up as a checklist in
+        [docs/MAINTAINING.md](../docs/MAINTAINING.md)
+  - [ ] **Verify red-then-green:** open a throwaway PR with a lint error, confirm CI fails,
+        fix, confirm it passes. Needs a push, so it is yours to run
 
 ---
 

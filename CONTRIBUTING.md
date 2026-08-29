@@ -24,7 +24,8 @@ before you typecheck in a fresh clone.
 pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm guard && pnpm size
 ```
 
-All six must pass. CI runs exactly these, in this order.
+All six must pass. CI runs exactly these, in this order, plus `pnpm format:check` and a
+coverage floor (90% statements and lines, 85% branches).
 
 `pnpm guard` checks the **built** extension rather than the source: that the manifest
 requests exactly `storage`, that there are no host permissions or content scripts, that no

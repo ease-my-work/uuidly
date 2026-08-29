@@ -94,13 +94,14 @@ A popup, some pure functions, and a key-value store. No background worker, no co
 scripts, no network layer — every one of those would be an attack surface or a permission
 request, and none is needed to put a UUID on screen.
 
-| Document                                       |                                          |
-| ---------------------------------------------- | ---------------------------------------- |
-| [`docs/FEATURES.md`](docs/FEATURES.md)         | Every feature, with status               |
-| [`docs/TECHNICAL.md`](docs/TECHNICAL.md)       | Stack, modules, render path, testing     |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Layers, state, data flow                 |
-| [`docs/DESIGN.md`](docs/DESIGN.md)             | The frozen visual contract for the popup |
-| [`docs/PUBLISHING.md`](docs/PUBLISHING.md)     | Release and store runbook                |
+| Document                                       |                                            |
+| ---------------------------------------------- | ------------------------------------------ |
+| [`docs/FEATURES.md`](docs/FEATURES.md)         | Every feature, with status                 |
+| [`docs/TECHNICAL.md`](docs/TECHNICAL.md)       | Stack, modules, render path, testing       |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Layers, state, data flow                   |
+| [`docs/DESIGN.md`](docs/DESIGN.md)             | The frozen visual contract for the popup   |
+| [`docs/PUBLISHING.md`](docs/PUBLISHING.md)     | Release and store runbook                  |
+| [`docs/MAINTAINING.md`](docs/MAINTAINING.md)   | Repo settings that cannot live in a commit |
 
 ## Privacy
 

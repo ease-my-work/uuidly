@@ -57,6 +57,7 @@
     "@testing-library/user-event": "^14.6.6",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
+    "@vitest/coverage-v8": "^4.1.11",
     "@wxt-dev/module-react": "^1.2.2",
     "axe-core": "^4.13.0",
     "eslint": "^10.9.1",

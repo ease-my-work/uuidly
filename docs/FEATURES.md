@@ -93,11 +93,11 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 | F-80 | `README.md` — badges, screenshot, install, dev setup, architecture | P0       | **done** |
 | F-81 | `LICENSE`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`  | P0       | **done** |
 | F-82 | Issue forms, PR template, `config.yml`                             | P0       | **done** |
-| F-83 | CI — lint, typecheck, test, build, size gate                       | P0       | planned  |
-| F-84 | CodeQL, dependency review, Dependabot                              | P0       | planned  |
+| F-83 | CI — lint, format, typecheck, test + coverage, build, guard, size  | P0       | **done** |
+| F-84 | CodeQL, dependency review, Dependabot                              | P0       | **done** |
 | F-85 | Release workflow — tag → zip → Release → Web Store submit          | P0       | planned  |
 | F-86 | `CHANGELOG.md`, Conventional Commits, SemVer                       | P0       | **done** |
-| F-87 | Pinned action SHAs, least-privilege workflow permissions           | P0       | planned  |
+| F-87 | Pinned action SHAs, least-privilege workflow permissions           | P0       | **done** |
 
 ---
 

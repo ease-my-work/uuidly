@@ -60,6 +60,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   fail the build if they stop being true.
 - Accessibility tests with axe across five states, and a performance assertion for
   bulk-100 generation, formatting and CSV building.
+- Continuous integration: lint, formatting, typecheck, tests with coverage, build, the
+  permission and no-network guard, and the bundle budgets — in that order, because the
+  guard reads the build output and typecheck catches what the tests cannot.
+- CodeQL with the `security-extended` query set, on every push and pull request and weekly
+  on a schedule, so a newly published rule finds existing code without waiting for a commit.
+- Dependency review on pull requests: fails at moderate severity and denies copyleft
+  licences. A two-dependency runtime is a deliberate property of this project, so a third
+  should be argued for in the pull request rather than slipped in.
+- A coverage floor of 90% statements and lines, 85% branches. Currently 97/99/93, so it is a
+  ratchet against erosion rather than a target to chase.
+- Every GitHub Action is pinned to a commit SHA rather than a tag. A tag can be repointed at
+  different code by anyone who can push to that action's repository, and the workflow would
+  run it with whatever permissions the job holds. Dependabot turns updates into pull
+  requests instead.
 - Preferences persist: the selected version and formatting are stored in
   `chrome.storage.local` and restored on the next open. They are read _after_ the first
   paint, never before it, and a choice made while storage is still loading is not
