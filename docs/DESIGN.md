@@ -47,7 +47,7 @@
 
 ```
 ┌──────────────────────────────────────────────────────┐ ◀ 420px ▶
-│  ◆  uuidly                                  ☾    ⓘ  │  Header       44px
+│  ◆  uuidly                                  ☾    ⌥  │  Header       44px
 ├──────────────────────────────────────────────────────┤
 │                                                      │
 │  ┌────────┬────────┬────────┬────────┬────────┐      │  VersionTabs  32px
@@ -186,7 +186,13 @@ Verified in T5.1 with an automated contrast check over these pairs.
 ### 7.1 Header
 
 - Left: 14×14 diamond mark in `--accent` + wordmark `uuidly` in `--text`.
-- Right: theme toggle (`☾` / `☀`, 24×24 hit target ≥ 28px) and an info button linking to the landing page (`target="_blank"`).
+- Right: theme toggle (`☾` / `☀` / `◐`) and a GitHub mark linking to the repository
+  (`target="_blank"`, `rel="noreferrer noopener"`). Both are 28×28 hit targets.
+- The GitHub mark is a **filled** logo, not a stroked outline like the other icons —
+  outlining it would misrender a recognisable mark.
+- Both carry an `aria-label`: an icon has no accessible name of its own, and an unlabelled
+  icon link reads as its bare URL. The link says `uuidly on GitHub`, not just `GitHub`,
+  because the latter does not say whose repository it opens.
 - Border-bottom `1px solid var(--border)`.
 
 ### 7.2 VersionTabs

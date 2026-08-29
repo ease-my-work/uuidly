@@ -83,6 +83,19 @@ describe('every control is reachable and named', () => {
     }
   });
 
+  it('names the icon-only links too', () => {
+    setup();
+    // An icon carries no accessible name of its own, so an unlabelled icon link
+    // reads as the bare URL, or as nothing at all.
+    for (const link of screen.getAllByRole('link')) {
+      expect(link).toHaveAccessibleName();
+    }
+    expect(screen.getByRole('link', { name: 'uuidly on GitHub' })).toHaveAttribute(
+      'href',
+      'https://github.com/ease-my-work/uuidly',
+    );
+  });
+
   it('names every control once the bulk panel is open', async () => {
     const user = setup();
     await user.click(screen.getByRole('button', { name: /Bulk generate/ }));

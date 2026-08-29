@@ -1,3 +1,4 @@
+import { GithubIcon } from './icons';
 import { ThemeToggle } from './ThemeToggle';
 
 /** docs/DESIGN.md §7.1. */
@@ -19,9 +20,13 @@ export function Header() {
           href={REPO_URL}
           target="_blank"
           rel="noreferrer noopener"
-          className="text-mute hover:text-dim rounded px-1.5 py-1 text-[11px] transition-colors duration-[120ms]"
+          // An icon has no accessible name of its own, and "GitHub" alone would
+          // not say whose repository this opens.
+          aria-label="uuidly on GitHub"
+          title="uuidly on GitHub"
+          className="text-dim hover:text-text hover:bg-surface-2 flex h-7 w-7 items-center justify-center rounded transition-colors duration-[120ms]"
         >
-          About
+          <GithubIcon />
         </a>
       </div>
     </header>
