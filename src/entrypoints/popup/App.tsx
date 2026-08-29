@@ -1,54 +1,42 @@
-/**
- * SCAFFOLD ONLY — replaced by the real popup in T1.2.
- *
- * Until then this renders the frozen design token set (docs/DESIGN.md §5) so the
- * palette can be verified in both themes inside the real 360px popup frame.
- * This is the "scratch page renders both palettes" verification step for T0.2.
- */
+import { useCallback, useState } from 'react';
+import { ActionRow } from '@/components/ActionRow';
+import { Header } from '@/components/Header';
+import { UuidDisplay } from '@/components/UuidDisplay';
+import { useCopy } from '@/hooks/useCopy';
+import { generate } from '@/lib/uuid';
 
-const TOKENS = [
-  'bg',
-  'surface',
-  'surface-2',
-  'surface-3',
-  'border',
-  'text',
-  'text-dim',
-  'text-mute',
-  'accent',
-  'accent-bg',
-  'success',
-  'danger',
-] as const;
+interface AppProps {
+  /**
+   * Generated synchronously in `main.tsx` before the root is created, so the
+   * first paint already shows a value. See docs/TECHNICAL.md §4.
+   */
+  initialUuid: string;
+}
 
-export default function App() {
+export default function App({ initialUuid }: AppProps) {
+  const [uuid, setUuid] = useState(initialUuid);
+  const { state, copy, reset } = useCopy();
+
+  const handleCopy = useCallback(() => {
+    void copy(uuid);
+  }, [copy, uuid]);
+
+  const handleRefresh = useCallback(() => {
+    setUuid(generate('v4'));
+    // The confirmation referred to the previous value. Leaving it up would be a
+    // lie about what is on the clipboard.
+    reset();
+  }, [reset]);
+
   return (
-    <main className="bg-bg text-text p-4">
-      <header className="mb-3 flex items-center gap-2">
-        <span
-          aria-hidden="true"
-          className="bg-accent inline-block h-3 w-3 rotate-45 rounded-[2px]"
-        />
-        <h1 className="text-[13px] font-semibold tracking-[-0.01em]">uuidly</h1>
-        <span className="text-mute ml-auto text-[11px]">design tokens</span>
-      </header>
-
-      <ul className="border-border divide-border divide-y rounded-[10px] border">
-        {TOKENS.map((token) => (
-          <li key={token} className="flex items-center gap-3 px-3 py-2">
-            <span
-              aria-hidden="true"
-              className="border-border h-5 w-5 shrink-0 rounded border"
-              style={{ backgroundColor: `var(--${token})` }}
-            />
-            <code className="font-mono text-[11px]">--{token}</code>
-          </li>
-        ))}
-      </ul>
-
-      <p className="text-dim mt-3 text-[11px]">
-        Scaffold placeholder. The real popup lands in T1.2.
-      </p>
+    <main>
+      <Header />
+      <UuidDisplay value={uuid} copyState={state} onCopy={handleCopy} />
+      <ActionRow
+        copied={state === 'copied'}
+        onCopy={handleCopy}
+        onRefresh={handleRefresh}
+      />
     </main>
   );
 }

@@ -37,36 +37,44 @@ Order is top-to-bottom except **Phase 6**, which may run in parallel from Phase 
 - [x] **T0.5** Issue forms + `config.yml` + PR template + `dependabot.yml` + `FUNDING.yml` — _deps: T0.1_
   - [x] ✅ Two YAML issue forms, blank issues disabled, security routed to private advisories
 
-> ### ⛳ CHECKPOINT A — human review ← **you are here**
+> ### ⛳ CHECKPOINT A — human review ✅ passed
 >
 > Stack builds, **design frozen**, docs match intent, governance complete.
-> Cheapest point to change either the stack or the look.
+> Decision taken here: React runtime swapped for Preact after the scaffold measured
+> 59.63 kB gz against a 60 kB budget.
 >
 > Outstanding for a maintainer (needs repo admin, cannot be done from code):
 > enable Discussions, enable secret-scanning push protection, add `good first issue` label.
 
 ---
 
-## Phase 1 — Vertical slice: one UUID, one click
+## Phase 1 — Vertical slice: one UUID, one click ✅
 
-- [ ] **T1.1** `src/lib/uuid.ts` + tests — `generate` / `generateMany` for v4, v1, v7, NIL, MAX — _deps: T0.1_
-  - ✅ Version nibble + variant bits correct per RFC 9562
-  - ✅ v7 monotonic over 10k; 100k v4s unique; count clamps 1..100
-  - ✅ v1 node id is random (no MAC address)
-  - 🔎 `pnpm test src/lib/uuid.test.ts`
-- [ ] **T1.2** Popup shows a v4 UUID on open and copies on click — _deps: T1.1, T0.2_
-  - [ ] UUID seeded synchronously in `main.tsx` before `createRoot`
-  - [ ] Header + `UuidDisplay` + `ActionRow` per DESIGN.md §3, §7.1, §7.3, §7.5
-  - [ ] `lib/clipboard.ts`; copied state per DESIGN.md §7.4
-  - [ ] Replaces the scaffold token-preview `App.tsx`
-  - ✅ Zero clicks to see a UUID; copied string byte-matches the rendered string
-  - ✅ Frame is 360px wide; no console errors; permissions still `["storage"]`
-  - 🔎 `pnpm dev` → click icon → paste and diff against the on-screen value
+- [x] **T1.1** `src/lib/uuid.ts` + tests — `generate` / `generateMany` for v4, v1, v7, NIL, MAX — _deps: T0.1_
+  - [x] ✅ Version nibble + variant bits asserted against RFC 9562 directly, not via `uuid`'s own `version()`
+  - [x] ✅ v7 monotonic across 10k sequential calls; 100k v4s unique; count clamps 1..100
+  - [x] ✅ v1 node id sets the multicast bit — proves no MAC address (SECURITY.md claim)
+  - [x] 🔎 `pnpm test src/lib/uuid.test.ts` — 26 tests
+- [x] **T1.2** Popup shows a v4 UUID on open and copies on click — _deps: T1.1, T0.2_
+  - [x] UUID seeded synchronously in `main.tsx` before `createRoot`
+  - [x] `Header` + `UuidDisplay` + `ActionRow` per DESIGN.md §3, §7.1, §7.3, §7.5
+  - [x] `lib/clipboard.ts` (clipboard API + `execCommand` fallback), `useCopy` hook, copied state per §7.4
+  - [x] Scaffold token-preview `App.tsx` replaced
+  - [x] ✅ Zero clicks to see a UUID; copied string byte-matches the rendered string
+  - [x] ✅ 360px frame verified in-browser, dark and light; permissions still `["storage"]`
+  - [x] ✅ Bundle 10.64 kB gz — inside both the 60 kB budget and the 20 kB tripwire
+  - **Scope note:** the Refresh _button_ shipped here because DESIGN.md §7.5 makes it half of
+    ActionRow and a one-button row would be visibly unfinished. Its hotkeys and the
+    disabled-for-NIL/MAX behaviour remain in T2.2 as planned.
+  - **Deferred to T5.1:** the header theme toggle. System `prefers-color-scheme` already
+    works; only the manual override is missing, and a dead toggle is worse than none.
 
-> ### ⛳ CHECKPOINT B — human review
+> ### ⛳ CHECKPOINT B — human review ← **you are here**
 >
 > Core promise works end to end. Confirm the popup **feels** instant and matches the frozen
 > design frame before adding anything else.
+>
+> To try it: `pnpm build`, then load `.output/chrome-mv3` unpacked at `chrome://extensions`.
 
 ---
 

@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   PNG icon set from one vector definition.
 - Documentation: features, technical implementation, architecture and publishing runbook.
 - Open-source governance: licence, code of conduct, contributing guide, security policy.
+- `lib/uuid.ts` — generation for v4, v1, v7, NIL and MAX behind a single module, with
+  bulk generation clamped to 1–100. Tested against RFC 9562 directly rather than against
+  the `uuid` package's own reporting: version and variant bits, v7 monotonicity across
+  10,000 sequential calls, uniqueness across 100,000, and the multicast bit that proves v1
+  uses a random node id rather than a MAC address.
+- Popup: a v4 UUID is generated synchronously before the React root is created, so the
+  first paint already shows a value. Click the display — or the Copy button, or press
+  Enter on it — to copy exactly the string on screen, with in-place confirmation and an
+  `aria-live` announcement. Refresh replaces the value and clears the stale confirmation.
 
 ### Changed
 
