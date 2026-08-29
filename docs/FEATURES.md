@@ -78,26 +78,26 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 ## Landing page
 
-| ID   | Feature                                                            | Priority | Status  |
-| ---- | ------------------------------------------------------------------ | -------- | ------- |
-| F-70 | Single page: hero, live demo, feature grid, screenshots, FAQ       | P1       | planned |
-| F-71 | Chrome Web Store install button (Firefox + Edge badges in P9)      | P1       | planned |
-| F-72 | SEO — meta, OG/Twitter cards, JSON-LD, `sitemap.xml`, `robots.txt` | P1       | planned |
-| F-73 | Lighthouse ≥ 95 on all four categories                             | P1       | planned |
-| F-74 | Deployed to GitHub Pages by Action                                 | P1       | planned |
+| ID   | Feature                                                            | Priority | Status                                  |
+| ---- | ------------------------------------------------------------------ | -------- | --------------------------------------- |
+| F-70 | Single page: hero, live working demo, feature grid, FAQ, privacy   | P1       | **done**                                |
+| F-71 | Chrome Web Store install button (Firefox + Edge badges in P9)      | P1       | repo link live; store badges after T8.2 |
+| F-72 | SEO — meta, OG/Twitter cards, JSON-LD, `sitemap.xml`, `robots.txt` | P1       | **done**                                |
+| F-73 | Lighthouse ≥ 95 on all four categories                             | P1       | measure after the first deploy          |
+| F-74 | Deployed to GitHub Pages by Action                                 | P1       | **done**                                |
 
 ## Open-source infrastructure
 
-| ID   | Feature                                                            | Priority | Status   |
-| ---- | ------------------------------------------------------------------ | -------- | -------- |
-| F-80 | `README.md` — badges, screenshot, install, dev setup, architecture | P0       | **done** |
-| F-81 | `LICENSE`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`  | P0       | **done** |
-| F-82 | Issue forms, PR template, `config.yml`                             | P0       | **done** |
-| F-83 | CI — lint, format, typecheck, test + coverage, build, guard, size  | P0       | **done** |
-| F-84 | CodeQL, dependency review, Dependabot                              | P0       | **done** |
-| F-85 | Release workflow — tag → zip → Release → Web Store submit          | P0       | planned  |
-| F-86 | `CHANGELOG.md`, Conventional Commits, SemVer                       | P0       | **done** |
-| F-87 | Pinned action SHAs, least-privilege workflow permissions           | P0       | **done** |
+| ID   | Feature                                                            | Priority | Status                                  |
+| ---- | ------------------------------------------------------------------ | -------- | --------------------------------------- |
+| F-80 | `README.md` — badges, screenshot, install, dev setup, architecture | P0       | **done**                                |
+| F-81 | `LICENSE`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`  | P0       | **done**                                |
+| F-82 | Issue forms, PR template, `config.yml`                             | P0       | **done**                                |
+| F-83 | CI — lint, format, typecheck, test + coverage, build, guard, size  | P0       | **done**                                |
+| F-84 | CodeQL, dependency review, Dependabot                              | P0       | **done**                                |
+| F-85 | Release workflow — tag → zip → Release → Web Store submit          | P0       | Pages deploy done; store submit in T8.1 |
+| F-86 | `CHANGELOG.md`, Conventional Commits, SemVer                       | P0       | **done**                                |
+| F-87 | Pinned action SHAs, least-privilege workflow permissions           | P0       | **done**                                |
 
 ---
 

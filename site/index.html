@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>uuidly — generate and copy UUIDs in one click</title>
+    <meta
+      name="description"
+      content="A browser extension that generates UUID v1, v4, v7, NIL and MAX. Bulk up to 100 with CSV export. One permission, zero network requests, 17.6 kB."
+    />
+    <link rel="canonical" href="https://ease-my-work.github.io/uuidly/" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="uuidly" />
+    <meta property="og:title" content="uuidly — generate and copy UUIDs in one click" />
+    <meta
+      property="og:description"
+      content="UUID v1, v4, v7, NIL and MAX. Bulk up to 100 with CSV export. One permission, zero network requests."
+    />
+    <meta property="og:url" content="https://ease-my-work.github.io/uuidly/" />
+    <meta
+      property="og:image"
+      content="https://ease-my-work.github.io/uuidly/assets/og.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The uuidly mark: a violet diamond on black." />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "uuidly",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Chrome",
+        "description": "A browser extension that generates and copies UUID v1, v4, v7, NIL and MAX, with bulk generation up to 100 and CSV export.",
+        "url": "https://ease-my-work.github.io/uuidly/",
+        "license": "https://opensource.org/licenses/MIT",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="topbar">
+      <span class="wordmark"><span class="mark" aria-hidden="true"></span>uuidly</span>
+      <a
+        class="ghost"
+        href="https://github.com/ease-my-work/uuidly"
+        rel="noreferrer noopener"
+        >GitHub</a
+      >
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <h1>Generate and copy UUIDs in one click.</h1>
+          <p class="lede">
+            Open the popup and a UUID is already there. Click it and it is on your
+            clipboard. That is the whole product.
+          </p>
+          <p class="badges">
+            <span class="badge">v1 · v4 · v7 · NIL · MAX</span>
+            <span class="badge">One permission</span>
+            <span class="badge">Zero network requests</span>
+            <span class="badge">17.6 kB</span>
+          </p>
+          <p class="cta-row">
+            <a
+              class="cta"
+              href="https://github.com/ease-my-work/uuidly"
+              rel="noreferrer noopener"
+              >Build it from source</a
+            >
+            <span class="cta-note">Chrome Web Store listing coming soon.</span>
+          </p>
+        </div>
+
+        <!--
+          Not a screenshot. This is the real thing, built from the same design
+          tokens and generating real UUIDs — a picture would be stale the moment
+          the popup changed, and would not let anyone try it.
+        -->
+        <div class="demo" id="demo">
+          <div class="demo-head">
+            <span class="wordmark small"
+              ><span class="mark" aria-hidden="true"></span>uuidly</span
+            >
+            <span class="demo-tag">live, right here</span>
+          </div>
+
+          <div class="tabs" role="tablist" aria-label="UUID version">
+            <button role="tab" aria-selected="true" data-kind="v4">v4</button>
+            <button role="tab" aria-selected="false" data-kind="v1" tabindex="-1">
+              v1
+            </button>
+            <button role="tab" aria-selected="false" data-kind="v7" tabindex="-1">
+              v7
+            </button>
+            <button role="tab" aria-selected="false" data-kind="nil" tabindex="-1">
+              NIL
+            </button>
+            <button role="tab" aria-selected="false" data-kind="max" tabindex="-1">
+              MAX
+            </button>
+          </div>
+
+          <div class="value-card">
+            <code id="value">—</code>
+            <button id="copy" class="icon" aria-label="Copy">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="9" y="9" width="12" height="12" rx="2" />
+                <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+              </svg>
+            </button>
+            <button id="refresh" class="icon" aria-label="Refresh">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+                <path d="M21 3v6h-6" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="chips">
+            <span class="chips-label">Format</span>
+            <button id="case" aria-pressed="false">aA</button>
+            <button id="hyphens" aria-pressed="true">‑</button>
+            <button id="wrapper" aria-pressed="false">{ }</button>
+          </div>
+
+          <p class="live" id="live" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>What it does</h2>
+        <div class="grid">
+          <article>
+            <h3>Every version worth having</h3>
+            <p>
+              <strong>v4</strong> random, <strong>v1</strong> timestamp-based,
+              <strong>v7</strong> time-ordered so it sorts lexicographically and makes a
+              decent database key, plus the <strong>NIL</strong> and <strong>MAX</strong>
+              constants.
+            </p>
+          </article>
+          <article>
+            <h3>Nothing between you and the value</h3>
+            <p>
+              A UUID is on screen the instant the popup paints — generated before the UI
+              mounts, not after. Click the value or the icon to copy exactly what you see.
+            </p>
+          </article>
+          <article>
+            <h3>Bulk, with a real CSV</h3>
+            <p>
+              Up to 100 at a time. Copy as text or JSON, or download a CSV with proper RFC
+              4180 quoting and a UTF-8 BOM, so Excel opens it without mangling anything.
+            </p>
+          </article>
+          <article>
+            <h3>Shaped for where it is going</h3>
+            <p>
+              Uppercase, hyphens on or off, and <code>{braces}</code>,
+              <code>"quotes"</code> or <code>urn:uuid:</code>. Formatting never
+              regenerates the value.
+            </p>
+          </article>
+          <article>
+            <h3>Keyboard the whole way</h3>
+            <p>
+              <kbd>1</kbd>–<kbd>5</kbd> pick a version, <kbd>R</kbd> refreshes,
+              <kbd>C</kbd> copies, <kbd>B</kbd> opens bulk, <kbd>Esc</kbd> closes. Works
+              with the mouse unplugged.
+            </p>
+          </article>
+          <article>
+            <h3>Small enough to audit</h3>
+            <p>
+              17.6 kB of JavaScript and two runtime dependencies. No background worker, no
+              content scripts, no analytics.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section privacy">
+        <h2>What it does not do</h2>
+        <p class="lede">
+          These are not promises in a privacy policy. Each one fails the build if it stops
+          being true.
+        </p>
+        <ul class="claims">
+          <li>
+            <strong>One permission: <code>storage</code>.</strong> It remembers your
+            chosen version and formatting. There is nothing else in the manifest.
+          </li>
+          <li>
+            <strong>No network requests, ever.</strong> A build-time check rejects the
+            bundle if <code>fetch</code>, <code>XMLHttpRequest</code> or
+            <code>WebSocket</code>
+            appears anywhere in it.
+          </li>
+          <li>
+            <strong>No host permissions, no content scripts.</strong> The extension cannot
+            read or change any page you visit.
+          </li>
+          <li>
+            <strong>Your MAC address is never read.</strong> v1 uses a random node id, and
+            a test asserts the multicast bit that proves it.
+          </li>
+          <li><strong>No analytics, no telemetry, no remote code.</strong></li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Questions</h2>
+        <details>
+          <summary>Which version should I use?</summary>
+          <p>
+            <strong>v4</strong> unless you have a reason. Use <strong>v7</strong> for
+            database keys — it sorts by creation time, which keeps index inserts local
+            instead of scattering them. Use <strong>v1</strong> only for compatibility
+            with something that already expects it.
+          </p>
+        </details>
+        <details>
+          <summary>Are these safe to use as secrets?</summary>
+          <p>
+            No. UUIDs are identifiers, not secrets. v1 and v7 encode their creation time
+            and are guessable in that dimension; v4 is random but still not a substitute
+            for a purpose-built token. Do not use them as passwords, session tokens or API
+            keys.
+          </p>
+        </details>
+        <details>
+          <summary>Firefox? Edge? Safari?</summary>
+          <p>
+            Firefox and Edge are planned for v1.1.0. Safari needs an Xcode wrapper and a
+            paid developer account, so it sits in the backlog rather than on the roadmap.
+          </p>
+        </details>
+        <details>
+          <summary>Why should I believe the privacy claims?</summary>
+          <p>
+            Because you can check them. The source is MIT-licensed on GitHub, the
+            permission list is one line of the manifest, and the checks that enforce both
+            run on every pull request.
+          </p>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="https://github.com/ease-my-work/uuidly" rel="noreferrer noopener"
+          >Source</a
+        >
+        ·
+        <a
+          href="https://github.com/ease-my-work/uuidly/blob/master/SECURITY.md"
+          rel="noreferrer noopener"
+          >Security</a
+        >
+        ·
+        <a href="https://github.com/ease-my-work/uuidly/issues" rel="noreferrer noopener"
+          >Issues</a
+        >
+        ·
+        <a
+          href="https://github.com/ease-my-work/uuidly/blob/master/LICENSE"
+          rel="noreferrer noopener"
+          >MIT</a
+        >
+      </p>
+      <p class="muted">
+        Built by ease-my-work. No cookies, no analytics, nothing to accept.
+      </p>
+    </footer>
+
+    <script src="demo.js"></script>
+  </body>
+</html>

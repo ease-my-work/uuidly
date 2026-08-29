@@ -7,7 +7,10 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    include: ['src/**/*.test.{ts,tsx}'],
+    // `tests/` holds suites that are not about `src/` — currently the landing
+    // page demo, which reimplements UUID generation and would otherwise ship
+    // untested. It lives outside `site/` so it is not deployed with the page.
+    include: ['src/**/*.test.{ts,tsx}', 'tests/**/*.test.ts'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],

@@ -1,0 +1,470 @@
+/*
+ * Same tokens as the extension (docs/DESIGN.md §5), so the page and the product
+ * read as one thing. No web fonts: a font request would be the only third-party
+ * connection on a page whose pitch is that the extension makes none.
+ */
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface-2: #1c1c1c;
+  --surface-3: #242424;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-dim: #a1a1a1;
+  --text-mute: #6b6b6b;
+  --accent: #a78bfa;
+  --accent-bg: #a78bfa1f;
+  --success: #4ade80;
+
+  --sans:
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+}
+
+code,
+kbd {
+  font-family: var(--mono);
+  font-size: 0.92em;
+}
+
+kbd {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.82em;
+}
+
+:where(a, button, summary):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--surface-2);
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+}
+
+/* --- chrome ------------------------------------------------------------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.wordmark.small {
+  font-size: 13px;
+}
+
+.mark {
+  width: 13px;
+  height: 13px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.ghost {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.ghost:hover {
+  color: var(--text);
+}
+
+/* --- hero --------------------------------------------------------------- */
+
+.hero {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 4rem;
+    padding-top: 4rem;
+  }
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+.lede {
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  margin: 0 0 1.5rem;
+  max-width: 46ch;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.75rem;
+}
+
+.badge {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0;
+}
+
+.cta {
+  display: inline-block;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  transition: background 120ms ease-out;
+}
+
+.cta:hover {
+  background: #a78bfa2e;
+}
+
+.cta-note {
+  color: var(--text-mute);
+  font-size: 13px;
+}
+
+/* --- demo (a working replica of the popup) ------------------------------- */
+
+.demo {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+}
+
+.demo-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.demo-tag {
+  font-size: 11px;
+  color: var(--text-mute);
+}
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  padding: 2px;
+  margin: 16px 14px 0;
+}
+
+.tabs button {
+  flex: 1;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 120ms ease-out;
+}
+
+.tabs button:hover {
+  background: var(--surface-3);
+}
+
+.tabs button[aria-selected='true'] {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.value-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin: 12px;
+  padding: 12px;
+}
+
+.value-card.copied {
+  border-color: var(--success);
+}
+
+.value-card code {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 120ms ease-out;
+}
+
+.icon:hover {
+  background: var(--surface-3);
+}
+
+#refresh {
+  color: var(--text);
+}
+
+#refresh[aria-disabled='true'] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.icon.done {
+  color: var(--success);
+}
+
+.icon svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 12px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+
+.chips-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-right: 2px;
+}
+
+.chips button {
+  height: 26px;
+  min-width: 34px;
+  padding: 0 8px;
+  border: 0;
+  background: var(--surface-2);
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.chips button[aria-pressed='true'] {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- sections ----------------------------------------------------------- */
+
+.section {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+h2 {
+  font-size: 1.5rem;
+  letter-spacing: -0.015em;
+  margin: 0 0 1.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+
+.grid p {
+  color: var(--text-dim);
+  font-size: 15px;
+  margin: 0;
+}
+
+.claims {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.claims li {
+  color: var(--text-dim);
+  font-size: 15px;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--border);
+}
+
+.claims strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+details {
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 0;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+details p {
+  color: var(--text-dim);
+  font-size: 15px;
+  margin: 0.6rem 0 0;
+  max-width: 70ch;
+}
+
+footer {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+
+footer p {
+  margin: 0 0 0.4rem;
+}
+
+.muted {
+  color: var(--text-mute);
+  font-size: 13px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

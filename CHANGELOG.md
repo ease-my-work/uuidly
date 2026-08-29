@@ -79,6 +79,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   paint, never before it, and a choice made while storage is still loading is not
   overwritten when it arrives.
 
+- Landing page in `site/`, deployed to GitHub Pages by an Action. Hand-written HTML, CSS and
+  one script — no framework, no build step, and no third-party request of any kind, which a
+  test asserts rather than merely intending. The hero is a working replica of the popup
+  instead of a screenshot: it generates real UUIDs, lets a visitor try it before installing,
+  and cannot fall out of date when the popup changes.
+- SEO for the page: canonical, Open Graph and Twitter tags, JSON-LD `SoftwareApplication`,
+  `robots.txt`, `sitemap.xml`, an SVG favicon, and a generated 1200×630 social card.
+- `pnpm og` generates that card from the same dependency-free PNG encoder as the icons, now
+  shared in `scripts/lib/png.mjs`.
+
 ### Changed — popup layout, after the Checkpoint C review
 
 - The UUID now sits on **one line**. That required the frame to grow from 360px to 420px:

@@ -84,6 +84,7 @@ pnpm dev       # opens Chrome with the extension loaded, hot-reloading
 | `pnpm guard`     | Permission and no-network checks on the build |
 | `pnpm size`      | Bundle budget check                           |
 | `pnpm icons`     | Regenerate the PNG icon set                   |
+| `pnpm og`        | Regenerate the social card for the site       |
 
 ## How it is built
 
@@ -102,6 +103,13 @@ request, and none is needed to put a UUID on screen.
 | [`docs/DESIGN.md`](docs/DESIGN.md)             | The frozen visual contract for the popup   |
 | [`docs/PUBLISHING.md`](docs/PUBLISHING.md)     | Release and store runbook                  |
 | [`docs/MAINTAINING.md`](docs/MAINTAINING.md)   | Repo settings that cannot live in a commit |
+
+## Website
+
+The landing page lives in [`site/`](site/) — hand-written HTML, CSS and one script, with a
+working replica of the popup rather than a screenshot of it. It is deployed to GitHub Pages
+by [`pages.yml`](.github/workflows/pages.yml) on any push that touches `site/`, and makes no
+third-party requests, which is enforced by a test.
 
 ## Privacy
 
