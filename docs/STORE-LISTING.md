@@ -68,6 +68,49 @@ These answers must stay true. Each is enforced by `pnpm guard` against the built
 Tick nothing in the data-collection matrix. If a future change requires ticking a box, it
 also requires updating [SECURITY.md](../SECURITY.md), the README and this file.
 
+### Paste-ready answers
+
+The table above is the summary. These are the actual field values — the form wants prose,
+and terse answers are a common rejection reason.
+
+**Single purpose description**
+
+```
+uuidly generates UUIDs and copies them to the clipboard.
+
+Every feature serves that one purpose: choosing a version (v1, v4, v7, or the NIL and MAX constants), formatting the result, generating up to 100 at once, and copying or exporting them as CSV. The extension does nothing else — it has no other mode, no background activity, and no functionality unrelated to producing a UUID.
+```
+
+**Permission justification — `storage`**
+
+```
+uuidly uses chrome.storage.local to remember three interface preferences between sessions: the selected UUID version, the formatting options (uppercase, hyphens, and the braces / quotes / urn:uuid: wrapper), and the bulk generation count.
+
+Without it, the popup would reset to its defaults every time it is opened, which for a tool whose value is being instant would defeat its purpose.
+
+Only these preference values are stored. No UUIDs, no browsing data, and no personal or identifying information are stored. The data stays in local storage on the user's own machine and is never transmitted — the extension makes no network requests of any kind.
+```
+
+**Host permission justification**
+
+```
+None requested. uuidly declares no host permissions and no content scripts. It cannot read or modify any page the user visits.
+```
+
+**Remote code**
+
+Select **"No, I am not using remote code."**
+
+```
+All code is bundled into the extension package at build time. There is no eval, no new Function on remote input, and no remotely hosted script, module or WebAssembly. The extension makes no network requests, so there is nothing for it to fetch.
+```
+
+**Data usage**
+
+Tick nothing. Certify all three compliance statements: the extension does not sell user
+data, does not use or transfer it for purposes unrelated to its single purpose, and does not
+use or transfer it to determine creditworthiness or for lending.
+
 ## Assets
 
 > The **store** icon and the **toolbar** icons are different assets that happen to share a
