@@ -115,6 +115,25 @@ body {
   border-radius: 4px;
 }
 
+/* Refresh pressed on NIL or MAX — DESIGN.md §8. Says "nothing happened" without
+   an error message for something that is not an error. */
+@keyframes uuidly-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+.animate-shake {
+  animation: uuidly-shake 300ms ease-in-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

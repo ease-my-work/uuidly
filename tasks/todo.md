@@ -78,16 +78,25 @@ Order is top-to-bottom except **Phase 6**, which may run in parallel from Phase 
 
 ---
 
-## Phase 2 — All versions + refresh
+## Phase 2 — All versions + refresh ✅
 
-- [ ] **T2.1** `VersionTabs` — v4 / v1 / v7 / NIL / MAX, roving tabindex, hotkeys `1`–`5` — _deps: T1.2_
-  - ✅ Each tab yields a value of that version; keyboard-only operable
-  - ✅ Correct `role="tablist"`; active/inactive styling per DESIGN.md §7.2
-  - 🔎 Component test: `uuid.version(rendered)` per tab
-- [ ] **T2.2** Refresh button + `R` / `Space` / `Esc` hotkeys — _deps: T2.1_
-  - ✅ 20 refreshes → 20 distinct values on v4/v1/v7
-  - ✅ Disabled with explanation for NIL/MAX; hotkeys inert while focus is in an input
-  - 🔎 Component test + manual typing check in the count field
+- [x] **T2.1** `VersionTabs` — v4 / v1 / v7 / NIL / MAX, roving tabindex, hotkeys `1`–`5` — _deps: T1.2_
+  - [x] ✅ Each tab yields a value of that version; NIL and MAX show their constants
+  - [x] ✅ `role="tablist"` with `aria-selected`, `aria-controls`, and the value card as the
+        labelled `tabpanel`; exactly one tab in the tab order at a time
+  - [x] ✅ Arrow keys move and select with wrap-around; `Home` / `End` jump to the ends
+  - [x] ✅ Active/inactive styling per DESIGN.md §7.2
+- [x] **T2.2** Hotkeys + constant handling — _deps: T2.1_
+  - [x] `useHotkeys` — one `document` listener holding the whole map (DESIGN.md §8)
+  - [x] ✅ `1`–`5` select · `R` refresh · `C` and `Ctrl`/`Cmd`+`C` copy · `Esc` closes
+  - [x] ✅ `Space` refreshes only when no control has focus, so it still activates buttons
+  - [x] ✅ `Ctrl+C` defers to the browser when text is selected
+  - [x] ✅ Hotkeys inert inside inputs, textareas, selects and contenteditable
+  - [x] ✅ Refresh is `aria-disabled` with an explanatory `title` on NIL/MAX and leaves the
+        value untouched; `R` shakes instead of erroring (DESIGN.md §8)
+  - [x] ✅ Switching kind clears the stale copy confirmation
+  - **Not yet verified visually.** The browser pane became unresponsive mid-session, so tab
+    styling is confirmed only by tests. Checkpoint C gates the visual pass regardless.
 
 ---
 

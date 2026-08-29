@@ -6,6 +6,9 @@ interface UuidDisplayProps {
   value: string;
   copyState: CopyState;
   onCopy: () => void;
+  /** Ties this panel to the version tablist. */
+  panelId: string;
+  labelledBy: string;
 }
 
 const HINT: Record<CopyState, string> = {
@@ -14,7 +17,13 @@ const HINT: Record<CopyState, string> = {
   failed: 'Copy failed — select and press Ctrl+C',
 };
 
-export function UuidDisplay({ value, copyState, onCopy }: UuidDisplayProps) {
+export function UuidDisplay({
+  value,
+  copyState,
+  onCopy,
+  panelId,
+  labelledBy,
+}: UuidDisplayProps) {
   const copied = copyState === 'copied';
   const failed = copyState === 'failed';
 
@@ -27,7 +36,7 @@ export function UuidDisplay({ value, copyState, onCopy }: UuidDisplayProps) {
   const hint = copied ? 'text-success' : failed ? 'text-danger' : 'text-mute';
 
   return (
-    <div className="px-4 pt-4">
+    <div role="tabpanel" id={panelId} aria-labelledby={labelledBy} className="px-4 pt-4">
       <div
         role="button"
         tabIndex={0}

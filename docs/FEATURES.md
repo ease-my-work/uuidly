@@ -9,15 +9,15 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 ## Generation
 
-| ID   | Feature                                                                     | Priority | Status                                   |
-| ---- | --------------------------------------------------------------------------- | -------- | ---------------------------------------- |
-| F-01 | **UUID v4** — random. Default on first install                              | P0       | **done**                                 |
-| F-02 | **UUID v1** — timestamp + random node id (no MAC address is read)           | P0       | planned                                  |
-| F-03 | **UUID v7** — Unix-epoch time-ordered, lexicographically sortable           | P0       | planned                                  |
-| F-04 | **NIL UUID** — `00000000-0000-0000-0000-000000000000`                       | P0       | planned                                  |
-| F-05 | **MAX UUID** — `ffffffff-ffff-ffff-ffff-ffffffffffff`                       | P0       | planned                                  |
-| F-06 | **Pre-generated on open** — a UUID is on screen at first paint, zero clicks | P0       | **done**                                 |
-| F-07 | **Refresh** — button plus `R` / `Space`; disabled for the two constants     | P0       | button done; hotkeys + constants in T2.2 |
+| ID   | Feature                                                                     | Priority | Status   |
+| ---- | --------------------------------------------------------------------------- | -------- | -------- |
+| F-01 | **UUID v4** — random. Default on first install                              | P0       | **done** |
+| F-02 | **UUID v1** — timestamp + random node id (no MAC address is read)           | P0       | **done** |
+| F-03 | **UUID v7** — Unix-epoch time-ordered, lexicographically sortable           | P0       | **done** |
+| F-04 | **NIL UUID** — `00000000-0000-0000-0000-000000000000`                       | P0       | **done** |
+| F-05 | **MAX UUID** — `ffffffff-ffff-ffff-ffff-ffffffffffff`                       | P0       | **done** |
+| F-06 | **Pre-generated on open** — a UUID is on screen at first paint, zero clicks | P0       | **done** |
+| F-07 | **Refresh** — button plus `R` / `Space`; disabled for the two constants     | P0       | **done** |
 
 ## Copy
 
@@ -25,7 +25,7 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 | ---- | ----------------------------------------------------------------------------- | -------- | -------- |
 | F-10 | **Click-to-copy** — the whole value display is the copy target                | P0       | **done** |
 | F-11 | **Copy feedback** — in-place "✓ Copied" for 1200ms, announced via `aria-live` | P0       | **done** |
-| F-12 | **Keyboard copy** — `C` or `Ctrl`/`Cmd`+`C`                                   | P0       | planned  |
+| F-12 | **Keyboard copy** — `C` or `Ctrl`/`Cmd`+`C`                                   | P0       | **done** |
 | F-13 | **Copy all** — newline-joined list, bulk mode                                 | P0       | planned  |
 | F-14 | **Copy as JSON** — `["…","…"]`, bulk mode                                     | P1       | planned  |
 
@@ -50,13 +50,13 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 ## Persistence & UX
 
-| ID   | Feature                                                                | Priority | Status  |
-| ---- | ---------------------------------------------------------------------- | -------- | ------- |
-| F-40 | **Remembers version, format and count** across sessions                | P1       | planned |
-| F-41 | **Non-blocking hydration** — never awaits storage before first paint   | P1       | planned |
-| F-42 | **Dark-first theme** — follows `prefers-color-scheme`, manual override | P1       | planned |
-| F-43 | **Full keyboard nav** — `1`–`5`, `R`, `C`, `B`, `Esc`                  | P1       | planned |
-| F-44 | **WCAG 2.1 AA** — contrast ≥ 4.5:1, labelled controls, live regions    | P1       | planned |
+| ID   | Feature                                                                | Priority | Status                          |
+| ---- | ---------------------------------------------------------------------- | -------- | ------------------------------- |
+| F-40 | **Remembers version, format and count** across sessions                | P1       | planned                         |
+| F-41 | **Non-blocking hydration** — never awaits storage before first paint   | P1       | planned                         |
+| F-42 | **Dark-first theme** — follows `prefers-color-scheme`, manual override | P1       | planned                         |
+| F-43 | **Full keyboard nav** — `1`–`5`, `R`, `C`, `B`, `Esc`                  | P1       | tabs, R, C, Esc done; B in T4.1 |
+| F-44 | **WCAG 2.1 AA** — contrast ≥ 4.5:1, labelled controls, live regions    | P1       | planned                         |
 
 ## Privacy & trust
 

@@ -27,6 +27,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   first paint already shows a value. Click the display — or the Copy button, or press
   Enter on it — to copy exactly the string on screen, with in-place confirmation and an
   `aria-live` announcement. Refresh replaces the value and clears the stale confirmation.
+- Version tabs for v4, v1, v7, NIL and MAX, implemented as a proper `tablist` with roving
+  tabindex, arrow-key navigation with wrap-around, and `Home` / `End`.
+- Keyboard map (`useHotkeys`): `1`–`5` select a version, `R` refreshes, `C` and
+  `Ctrl`/`Cmd`+`C` copy, `Esc` closes. `Space` refreshes only when no control has focus, so
+  it still activates buttons, and `Ctrl+C` defers to the browser when text is selected.
+  Shortcuts are inert while typing in a field.
+- NIL and MAX are treated as the constants they are: Refresh is `aria-disabled` with an
+  explanation and shakes rather than pretending to do something.
 
 ### Changed
 
