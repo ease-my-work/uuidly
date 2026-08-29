@@ -13,7 +13,7 @@ body:
 
         - The extension requests exactly one permission (`storage`) and makes **no network
           requests**. Anything requiring either is very unlikely to be accepted.
-        - The popup budget is 60 kB of gzipped JavaScript. It currently uses 7.9 kB.
+        - The popup budget is 60 kB of gzipped JavaScript. It currently uses 17.6 kB.
         - Check [`docs/FEATURES.md`](https://github.com/ease-my-work/uuidly/blob/master/docs/FEATURES.md)
           first — your idea may already be planned or on the backlog.
 
