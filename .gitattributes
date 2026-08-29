@@ -1,0 +1,21 @@
+# Normalise line endings so Windows, macOS and Linux contributors produce
+# identical diffs. LF in the repository, native in the working copy.
+* text=auto eol=lf
+
+# Windows-only files keep CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binaries — never touch, never diff.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.zip binary
+
+# Generated: collapse in diffs and exclude from language stats.
+pnpm-lock.yaml linguist-generated=true -diff

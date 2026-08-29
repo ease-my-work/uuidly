@@ -1,0 +1,74 @@
+{
+  "name": "uuidly",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser extension to generate and copy UUIDs in one click — v1, v4, v7, NIL and MAX.",
+  "license": "MIT",
+  "author": "ease-my-work",
+  "homepage": "https://github.com/ease-my-work/uuidly",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ease-my-work/uuidly.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ease-my-work/uuidly/issues"
+  },
+  "keywords": [
+    "uuid",
+    "guid",
+    "uuid-generator",
+    "browser-extension",
+    "chrome-extension",
+    "wxt"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "zip": "wxt zip",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "size": "size-limit",
+    "icons": "node scripts/gen-icons.mjs",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "preact": "^10.29.8",
+    "uuid": "^14.0.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@size-limit/file": "^13.0.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.6",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@wxt-dev/module-react": "^1.2.2",
+    "eslint": "^10.9.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.11.0",
+    "jsdom": "^30.0.1",
+    "prettier": "^3.9.6",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "size-limit": "^13.0.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.68.0",
+    "vitest": "^4.1.11",
+    "wxt": "^0.21.4"
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "popup JS — product budget (F-60)",
+    "path": ".output/chrome-mv3/**/*.js",
+    "limit": "60 kB",
+    "gzip": true
+  },
+  {
+    "name": "popup JS — regression tripwire",
+    "path": ".output/chrome-mv3/**/*.js",
+    "limit": "20 kB",
+    "gzip": true
+  },
+  {
+    "name": "popup CSS — product budget (F-61)",
+    "path": ".output/chrome-mv3/**/*.css",
+    "limit": "10 kB",
+    "gzip": true
+  }
+]

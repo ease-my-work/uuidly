@@ -1,0 +1,91 @@
+name: Bug report
+description: Something in the extension does not work as it should
+title: 'fix: '
+labels: ['bug', 'needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this.
+
+        **If this is a security issue, do not file it here.** Use a
+        [private security advisory](https://github.com/ease-my-work/uuidly/security/advisories/new)
+        instead.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, and what did the extension do instead of what you expected?
+      placeholder: I clicked the UUID to copy it, but the clipboard contained the previous value.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: input
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part?
+      options:
+        - Generating a UUID
+        - Copying
+        - Formatting options
+        - Bulk generation
+        - CSV download
+        - Theme or appearance
+        - Keyboard shortcuts
+        - Something else
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Extension version
+      description: Shown at chrome://extensions, or the commit SHA if you built from source.
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 141 on Windows 11
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description: >
+        Right-click the extension icon → Inspect popup → Console. Paste anything that appears.
+        Automatically formatted as code, no backticks needed.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this is not a duplicate
+          required: true
+        - label: This is not a security vulnerability
+          required: true

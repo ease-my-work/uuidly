@@ -1,0 +1,64 @@
+name: Feature request
+description: Suggest something uuidly should do
+title: 'feat: '
+labels: ['enhancement', 'needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        uuidly is deliberately small. The best proposals make it more useful without making it
+        bigger, slower, or hungrier for permissions.
+
+        Worth knowing before you write:
+
+        - The extension requests exactly one permission (`storage`) and makes **no network
+          requests**. Anything requiring either is very unlikely to be accepted.
+        - The popup budget is 60 kB of gzipped JavaScript. It currently uses 7.9 kB.
+        - Check [`docs/FEATURES.md`](https://github.com/ease-my-work/uuidly/blob/master/docs/FEATURES.md)
+          first — your idea may already be planned or on the backlog.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the situation you are in when you need this, not the solution itself.
+      placeholder: I paste UUIDs into SQL and have to add quotes by hand every time.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should uuidly do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What do you do today instead?
+      description: Workarounds, other tools, or why the existing features do not cover it.
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Where would this live?
+      options:
+        - The popup
+        - Bulk generation
+        - CSV export
+        - Formatting options
+        - The landing page
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and docs/FEATURES.md, and this is not already covered
+          required: true
+        - label: This does not require a new permission or any network access
+          required: false
