@@ -1,7 +1,7 @@
 # uuidly — Implementation Plan
 
 > Browser extension to generate and copy UUIDs in one click — v1, v4, v7, NIL, MAX.
-> Repo: `ease-my-work/uuidly` · License: MIT · Status: **Phase 0 complete, at Checkpoint A**
+> Repo: `ease-my-work/uuidly` · License: MIT · Status: **Phases 0–5 complete, at Checkpoint C** (plus post-C UI revisions)
 > Companion documents: [docs/DESIGN.md](../docs/DESIGN.md) (frozen visual contract) · [todo.md](todo.md) (task checklist)
 
 **Scope: P0–P8 target Chrome only and ship v1.0.0. Firefox, Edge and Safari land in P9 (v1.1.0).**
@@ -30,6 +30,9 @@ Chrome-first cut costs nothing in rework.
 ---
 
 ## 1. Feature list
+
+> **[docs/FEATURES.md](../docs/FEATURES.md) is canonical** and carries live status. This section
+> is the original plan, kept as the record of what was scoped up front.
 
 ### 1.1 Generation (P0)
 
@@ -127,6 +130,9 @@ Chrome-first cut costs nothing in rework.
 
 ## 2. Technical implementation
 
+> **[docs/TECHNICAL.md](../docs/TECHNICAL.md) is canonical.** This section is the original
+> design; where the two differ, the shipped code and `docs/` are right.
+
 ### 2.1 Repository layout
 
 ```
@@ -151,7 +157,7 @@ uuidly/
 │   └── assets/{screenshot-*.png,og.png,favicon.svg}
 ├── src/
 │   ├── entrypoints/popup/{index.html,main.tsx,App.tsx}
-│   ├── components/{VersionTabs,UuidDisplay,FormatBar,BulkPanel,CopyButton,ThemeToggle}.tsx
+│   ├── components/{Header,VersionTabs,UuidDisplay,FormatBar,BulkPanel,ThemeToggle,icons}.tsx
 │   ├── hooks/{useUuid,usePrefs,useCopy,useHotkeys}.ts
 │   ├── lib/{uuid,format,csv,clipboard,prefs}.ts
 │   ├── types.ts
@@ -274,10 +280,10 @@ export const countPref = storage.defineItem<number>('local:count', { fallback: 1
 
 ```
 App
-├── Header            (logo, ThemeToggle)
+App
+├── Header            (logo, ThemeToggle, GitHub link)
 ├── VersionTabs       (F-01..05, hotkeys 1-5)
-├── UuidDisplay       (F-06, F-10, F-11) ── CopyButton
-├── ActionRow         (Refresh F-07, format popover trigger)
+├── UuidDisplay       (F-06, F-10, F-11) ── inline Copy + Refresh icon buttons (F-07)
 ├── FormatBar         (F-20..23)
 └── BulkPanel         (F-30..34, collapsed by default)
 ```
@@ -431,7 +437,7 @@ Implement `UuidKind`, `KINDS`, `IS_CONSTANT`, `generate`, `generateMany` on `uui
 _Deps: T1.1, T0.2 (design frozen)_
 `App.tsx` with Header + `UuidDisplay` + `ActionRow` built to design.md §3, §7.1, §7.3, §7.5; copied state per §7.4; `lib/clipboard.ts`; UUID seeded synchronously in `main.tsx` before `createRoot`.
 
-- **AC** — Opening the popup shows a valid v4 UUID with zero interaction. Frame is exactly 360px wide. Clicking the display copies the exact rendered string and shows "✓ Copied" for 1200ms. `aria-live` announces the copy. No console errors or warnings. Manifest requests only `storage`.
+- **AC** — Opening the popup shows a valid v4 UUID with zero interaction. Frame is exactly 360px wide _(superseded: 420px after Checkpoint C — see DESIGN.md §0)_. Clicking the display copies the exact rendered string and shows "✓ Copied" for 1200ms. `aria-live` announces the copy. No console errors or warnings. Manifest requests only `storage`.
 - **V** — `pnpm dev` → click the icon → paste into an editor and diff against the on-screen value. `cat .output/chrome-mv3/manifest.json` shows `"permissions": ["storage"]`. Component test asserts `writeText` was called with the rendered string.
 
 > ### CHECKPOINT B — human review

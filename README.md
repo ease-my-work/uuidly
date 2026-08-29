@@ -10,7 +10,7 @@ Open the popup, a UUID is already there. Click it, it's copied. That's the whole
 [![CodeQL](https://github.com/ease-my-work/uuidly/actions/workflows/codeql.yml/badge.svg)](https://github.com/ease-my-work/uuidly/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-A78BFA.svg)](LICENSE)
 [![Permissions: storage only](https://img.shields.io/badge/permissions-storage%20only-4ADE80.svg)](SECURITY.md)
-[![Popup bundle](https://img.shields.io/badge/popup-7.9%20kB%20gzipped-4ADE80.svg)](docs/TECHNICAL.md#6-why-preact)
+[![Popup bundle](https://img.shields.io/badge/popup-17.6%20kB%20gzipped-4ADE80.svg)](docs/TECHNICAL.md#6-why-preact)
 
 </div>
 
@@ -31,7 +31,7 @@ uuidly does none of that:
 - **One permission.** `storage`, to remember your preferences. Nothing else — no host
   permissions, no content scripts, no background worker.
 - **Zero network requests.** Not one, ever. There is a test that enforces it.
-- **7.9 kB of JavaScript**, gzipped.
+- **17.6 kB of JavaScript**, gzipped — against a 60 kB budget.
 
 ## Features
 

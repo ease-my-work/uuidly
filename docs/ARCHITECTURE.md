@@ -50,9 +50,9 @@ uuidly/
         │  App.tsx — owns all state, passes it down     │
         └───┬──────────┬──────────┬──────────┬──────────┘
             │          │          │          │
-      ┌─────▼────┐┌────▼─────┐┌───▼──────┐┌──▼─────────┐
-      │VersionTabs││UuidDisplay││FormatBar ││ BulkPanel  │   components/
-      └─────┬────┘└────┬─────┘└───┬──────┘└──┬─────────┘   (presentational)
+   ┌────▼───┐┌─────▼────┐┌────▼─────┐┌───▼──────┐┌──▼─────────┐
+   │ Header ││VersionTabs││UuidDisplay││FormatBar ││ BulkPanel  │  components/
+   └────────┘└─────┬────┘└────┬─────┘└───┬──────┘└──┬─────────┘  (presentational)
             │          │          │          │
         ┌───▼──────────▼──────────▼──────────▼──────────┐
         │  hooks/  useUuid · usePrefs · useCopy ·       │
@@ -108,7 +108,7 @@ that feels slow, and "feels instant" is the entire product.
 
 ```
 user clicks display
-   └─▶ UuidDisplay onCopy()
+   └─▶ UuidDisplay onCopy()   (the value itself, or the inline copy icon)
          └─▶ useCopy.copy(formatted)
                ├─▶ lib/clipboard.copy()  ──▶ navigator.clipboard.writeText
                │                              └─ fallback: hidden textarea + execCommand

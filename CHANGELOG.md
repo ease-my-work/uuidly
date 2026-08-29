@@ -65,6 +65,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   paint, never before it, and a choice made while storage is still loading is not
   overwritten when it arrives.
 
+### Changed — popup layout, after the Checkpoint C review
+
+- The UUID now sits on **one line**. That required the frame to grow from 360px to 420px:
+  at 360px, after padding and controls, 36 characters had 232px to live in, which is a
+  10.7px font for the one element the popup exists to show.
+- Copy and Refresh became icon-only buttons inline with the value, replacing the
+  full-width button row. The popup is wider in pixels but about 115px shorter overall.
+- Formats longer than the frame — `urn:uuid:` is 45 characters — scroll sideways. They are
+  deliberately not truncated: a clipped UUID that can still be scrolled reads as
+  incomplete, while one ending in an ellipsis reads as a whole value that happens to be
+  long, and that is the worse failure for something people paste into databases.
+- All hint text is gone. Success is the copy icon turning into a green check; failure is a
+  red alert glyph, a red card border, and the remedy in the button's `title`. The
+  `aria-live` region is now the entire channel through which a screen reader learns either
+  outcome.
+- The header links to the repository with the GitHub mark instead of the word "About".
+
 ### Changed
 
 - The popup runs on **Preact** via a `preact/compat` alias rather than React's own runtime.

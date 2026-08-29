@@ -187,6 +187,24 @@ Order is top-to-bottom except **Phase 6**, which may run in parallel from Phase 
 >
 > `pnpm build`, then load `.output/chrome-mv3` unpacked at `chrome://extensions`.
 
+### Post-Checkpoint-C UI revisions ✅
+
+Raised from the first real look at the popup in a browser. All shipped, all documented in
+[DESIGN.md §0](../docs/DESIGN.md); the automated gates were re-run green after each.
+
+- [x] **Single-line UUID.** Frame 360px → 420px; value at 13.5px; long formats scroll
+      sideways rather than wrapping or truncating.
+- [x] **Copy and Refresh inline as icons**; `ActionRow` deleted. The copy target narrowed to
+      the value alone — a `role="button"` card wrapping real buttons is nested-interactive.
+- [x] **All hint text removed**; card sized to its single row; 12px gap added below it so it
+      no longer sits flush against the FormatBar rule.
+- [x] **GitHub mark replaces the "About" link**, with an accessible name on both header
+      controls.
+- Net: ~330px → ~214px tall. 183 tests, axe still clean, 17.61 kB gz.
+- **Not possible, asked and answered:** rounding the popup's outer corners. Chrome draws
+  that frame and its background is not transparent, so `border-radius` on `body` only
+  reveals the window background in the corners.
+
 ---
 
 ## Phase 6 — CI & supply chain _(parallel from Phase 2 onward)_

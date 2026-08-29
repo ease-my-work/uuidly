@@ -21,13 +21,13 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 ## Copy
 
-| ID   | Feature                                                                       | Priority | Status   |
-| ---- | ----------------------------------------------------------------------------- | -------- | -------- |
-| F-10 | **Click-to-copy** — the whole value display is the copy target                | P0       | **done** |
-| F-11 | **Copy feedback** — in-place "✓ Copied" for 1200ms, announced via `aria-live` | P0       | **done** |
-| F-12 | **Keyboard copy** — `C` or `Ctrl`/`Cmd`+`C`                                   | P0       | **done** |
-| F-13 | **Copy all** — newline-joined list, bulk mode                                 | P0       | **done** |
-| F-14 | **Copy as JSON** — `["…","…"]`, bulk mode                                     | P1       | **done** |
+| ID   | Feature                                                                                   | Priority | Status   |
+| ---- | ----------------------------------------------------------------------------------------- | -------- | -------- |
+| F-10 | **Click-to-copy** — the value itself is the copy target, plus an inline copy icon         | P0       | **done** |
+| F-11 | **Copy feedback** — copy icon becomes a green check for 1200ms, announced via `aria-live` | P0       | **done** |
+| F-12 | **Keyboard copy** — `C` or `Ctrl`/`Cmd`+`C`                                               | P0       | **done** |
+| F-13 | **Copy all** — newline-joined list, bulk mode                                             | P0       | **done** |
+| F-14 | **Copy as JSON** — `["…","…"]`, bulk mode                                                 | P1       | **done** |
 
 ## Formatting
 
@@ -71,7 +71,7 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 | ID   | Budget                                                | Priority | Status                                                |
 | ---- | ----------------------------------------------------- | -------- | ----------------------------------------------------- |
-| F-60 | Popup JS ≤ 60 kB gzipped                              | P0       | **done** — 17.24 kB, with a 20 kB regression tripwire |
+| F-60 | Popup JS ≤ 60 kB gzipped                              | P0       | **done** — 17.61 kB, with a 20 kB regression tripwire |
 | F-61 | Popup CSS ≤ 10 kB gzipped                             | P0       | **done** — 4.37 kB                                    |
 | F-62 | First UUID visible ≤ 100 ms after the icon is clicked | P0       | measured at Checkpoint C                              |
 | F-63 | Bulk 100 generate + render ≤ 50 ms                    | P0       | computation asserted; render at Checkpoint C          |

@@ -311,18 +311,18 @@ No entrance animation on popup open — it would fight the ≤100ms first-paint 
 
 ## 10. States matrix
 
-| State             | Trigger                           | Visual                                                                                                             |
-| ----------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Default           | Popup opens                       | v4 UUID rendered, hint `click to copy`                                                                             |
-| Hover (display)   | Pointer over card                 | Border → accent 40%, cursor pointer                                                                                |
-| Focused           | Keyboard focus                    | Accent outline, 2px offset                                                                                         |
-| Copied            | Copy succeeds                     | Border + hint → `--success`, `✓ Copied`, 1200ms                                                                    |
-| Copy failed       | Clipboard API rejects             | Border + hint → `--danger`, `Copy failed — select and press Ctrl+C`, value becomes user-selectable                 |
-| Constant selected | NIL / MAX active                  | Refresh disabled at 0.4 opacity with explanatory `title`                                                           |
-| Bulk empty        | Panel opened, nothing generated   | List area shows `Press Generate to create <n> UUIDs` in `--text-mute`                                              |
-| Bulk generating   | ≥ 50 rows                         | No spinner — it completes inside one frame. If it ever exceeds 100ms, the Generate button label becomes `Working…` |
-| Invalid count     | Out of range on blur              | Border flashes `--danger`, value snaps to 1 or 100                                                                 |
-| Hydration         | Stored prefs differ from defaults | Value swaps once, without a flash-of-empty. Never a skeleton — the default UUID is already valid content (F-41)    |
+| State             | Trigger                           | Visual                                                                                                                 |
+| ----------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Default           | Popup opens                       | v4 UUID rendered on one line. No hint text — the copy icon carries the affordance                                      |
+| Hover (display)   | Pointer over card                 | Border → accent 40%, cursor pointer                                                                                    |
+| Focused           | Keyboard focus                    | Accent outline, 2px offset                                                                                             |
+| Copied            | Copy succeeds                     | Copy icon becomes a check in `--success` for 1200ms. Nothing else changes; the live region announces it                |
+| Copy failed       | Clipboard API rejects             | Copy icon becomes an alert glyph in `--danger`, card border `--danger`, remedy in the button `title`, value selectable |
+| Constant selected | NIL / MAX active                  | Refresh disabled at 0.4 opacity with explanatory `title`                                                               |
+| Bulk empty        | Panel opened, nothing generated   | List area shows `Press Generate to create <n> UUIDs` in `--text-mute`                                                  |
+| Bulk generating   | ≥ 50 rows                         | No spinner — it completes inside one frame. If it ever exceeds 100ms, the Generate button label becomes `Working…`     |
+| Invalid count     | Out of range on blur              | Border flashes `--danger`, value snaps to 1 or 100                                                                     |
+| Hydration         | Stored prefs differ from defaults | Value swaps once, without a flash-of-empty. Never a skeleton — the default UUID is already valid content (F-41)        |
 
 ---
 
@@ -355,7 +355,7 @@ Mark: a rotated square (diamond) with a hollow centre — reads as both a "u" co
 
 Checked at **Checkpoint C** (T5.1/T5.2):
 
-- [ ] Popup width is exactly 420px; collapsed height ≤ 260px; expanded height ≤ 600px
+- [ ] Popup width is exactly 420px; collapsed height ≤ 230px; expanded height ≤ 600px
 - [ ] The canonical UUID sits on **one line**; `urn:uuid:` scrolls sideways and never wraps
 - [ ] Every colour pair in §5 meets ≥ 4.5:1 in both themes
 - [ ] Zero web font requests; DevTools Network is empty on popup open
@@ -364,3 +364,6 @@ Checked at **Checkpoint C** (T5.1/T5.2):
 - [ ] `prefers-reduced-motion: reduce` removes all transitions
 - [ ] Copied, copy-failed, constant-selected, bulk-empty and invalid-count states all render as specified
 - [ ] Icon is legible at 16px against both a light and a dark browser toolbar
+- [ ] No hint text anywhere at rest; the copy icon flashes green on success and red on failure
+- [ ] The value card does not sit flush against the FormatBar rule
+- [ ] The GitHub mark renders correctly and opens the repository in a new tab

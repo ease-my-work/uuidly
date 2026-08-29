@@ -141,8 +141,12 @@ typecheck and lint are all unchanged — `react` and `react-dom` stay installed 
 for types and Testing Library peers. What is given up is React Server Components and full
 Suspense, neither of which a popup can use.
 
+Those figures are the scaffold measurement, kept because they are the comparison that
+decided the runtime. The shipped popup is **17.61 kB gzipped** with every feature in it.
+
 `.size-limit.json` keeps both the 60 kB product budget (F-60) and a 20 kB regression tripwire, so
-a future dependency cannot quietly consume the headroom.
+a future dependency cannot quietly consume the headroom. The tripwire, not the budget, is the
+binding constraint today.
 
 ---
 
