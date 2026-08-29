@@ -51,6 +51,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The download uses a blob URL and a synthetic anchor click, so it needs no `downloads`
   permission. If a browser blocks it, the panel says so and points at Copy all.
 - `B` toggles the bulk panel.
+- Theme control cycling system, light and dark. `system` sets no attribute at all, leaving
+  `prefers-color-scheme` in charge so the popup follows the OS live rather than
+  snapshotting it at open. The choice persists.
+- `pnpm guard` — a build-time check that the manifest requests exactly `storage`, that
+  there are no host permissions or content scripts, that no network API appears anywhere
+  in the bundle, and that no page loads a remote resource. The promises in SECURITY.md now
+  fail the build if they stop being true.
+- Accessibility tests with axe across five states, and a performance assertion for
+  bulk-100 generation, formatting and CSV building.
 - Preferences persist: the selected version and formatting are stored in
   `chrome.storage.local` and restored on the next open. They are read _after_ the first
   paint, never before it, and a choice made while storage is still loading is not
@@ -63,9 +72,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   budget — the entire budget, before any feature existed. The alias brings that to 7.88 kB
   with no source changes. See [`docs/TECHNICAL.md`](docs/TECHNICAL.md) §6.
 
+- Vite's modulepreload polyfill is disabled. It called `fetch()` on preload hrefs, which
+  made it the only network API in the bundle; Chrome MV3 supports modulepreload natively,
+  so the polyfill was dead weight as well as a false positive waiting to happen.
+
 ### Security
 
 - The extension requests exactly one permission, `storage`, and makes no network requests.
-  See [SECURITY.md](SECURITY.md).
+  Both are now enforced by `pnpm guard` against the built output rather than asserted in
+  prose. See [SECURITY.md](SECURITY.md).
 
 [Unreleased]: https://github.com/ease-my-work/uuidly/commits/master

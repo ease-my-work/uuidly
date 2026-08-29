@@ -21,3 +21,9 @@ export const formatPref = storage.defineItem<FormatOpts>('local:format', {
 export const countPref = storage.defineItem<number>('local:count', {
   fallback: 10,
 });
+
+export type Theme = 'system' | 'light' | 'dark';
+
+export const themePref = storage.defineItem<Theme>('local:theme', {
+  fallback: 'system',
+});

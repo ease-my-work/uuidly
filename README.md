@@ -73,16 +73,17 @@ pnpm install   # also runs `wxt prepare`, which generates .wxt/
 pnpm dev       # opens Chrome with the extension loaded, hot-reloading
 ```
 
-| Command          |                                         |
-| ---------------- | --------------------------------------- |
-| `pnpm dev`       | Dev server with HMR                     |
-| `pnpm build`     | Production build → `.output/chrome-mv3` |
-| `pnpm zip`       | Store-ready ZIP                         |
-| `pnpm test`      | Vitest (`test:watch`, `test:coverage`)  |
-| `pnpm lint`      | ESLint (`lint:fix`)                     |
-| `pnpm typecheck` | `tsc --noEmit`                          |
-| `pnpm size`      | Bundle budget check                     |
-| `pnpm icons`     | Regenerate the PNG icon set             |
+| Command          |                                               |
+| ---------------- | --------------------------------------------- |
+| `pnpm dev`       | Dev server with HMR                           |
+| `pnpm build`     | Production build → `.output/chrome-mv3`       |
+| `pnpm zip`       | Store-ready ZIP                               |
+| `pnpm test`      | Vitest (`test:watch`, `test:coverage`)        |
+| `pnpm lint`      | ESLint (`lint:fix`)                           |
+| `pnpm typecheck` | `tsc --noEmit`                                |
+| `pnpm guard`     | Permission and no-network checks on the build |
+| `pnpm size`      | Bundle budget check                           |
+| `pnpm icons`     | Regenerate the PNG icon set                   |
 
 ## How it is built
 

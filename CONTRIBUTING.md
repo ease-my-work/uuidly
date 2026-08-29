@@ -21,10 +21,15 @@ before you typecheck in a fresh clone.
 ## Before you open a pull request
 
 ```bash
-pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm size
+pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm guard && pnpm size
 ```
 
-All five must pass. CI runs exactly these.
+All six must pass. CI runs exactly these, in this order.
+
+`pnpm guard` checks the **built** extension rather than the source: that the manifest
+requests exactly `storage`, that there are no host permissions or content scripts, that no
+network API appears anywhere in the bundle, and that no page loads a remote resource. It
+runs after `pnpm build` because it reads `.output/`.
 
 ## Project conventions
 

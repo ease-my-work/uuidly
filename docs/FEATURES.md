@@ -50,31 +50,31 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 ## Persistence & UX
 
-| ID   | Feature                                                                | Priority | Status   |
-| ---- | ---------------------------------------------------------------------- | -------- | -------- |
-| F-40 | **Remembers version, format and count** across sessions                | P1       | **done** |
-| F-41 | **Non-blocking hydration** — never awaits storage before first paint   | P1       | **done** |
-| F-42 | **Dark-first theme** — follows `prefers-color-scheme`, manual override | P1       | planned  |
-| F-43 | **Full keyboard nav** — `1`–`5`, `R`, `C`, `B`, `Esc`                  | P1       | **done** |
-| F-44 | **WCAG 2.1 AA** — contrast ≥ 4.5:1, labelled controls, live regions    | P1       | planned  |
+| ID   | Feature                                                                | Priority | Status                                       |
+| ---- | ---------------------------------------------------------------------- | -------- | -------------------------------------------- |
+| F-40 | **Remembers version, format and count** across sessions                | P1       | **done**                                     |
+| F-41 | **Non-blocking hydration** — never awaits storage before first paint   | P1       | **done**                                     |
+| F-42 | **Dark-first theme** — follows `prefers-color-scheme`, manual override | P1       | **done**                                     |
+| F-43 | **Full keyboard nav** — `1`–`5`, `R`, `C`, `B`, `Esc`                  | P1       | **done**                                     |
+| F-44 | **WCAG 2.1 AA** — contrast ≥ 4.5:1, labelled controls, live regions    | P1       | axe clean; contrast verified at Checkpoint C |
 
 ## Privacy & trust
 
-| ID   | Feature                                                                              | Priority | Status   |
-| ---- | ------------------------------------------------------------------------------------ | -------- | -------- |
-| F-50 | **Zero network** — enforced by a test asserting the built bundle has no network APIs | P0       | planned  |
-| F-51 | **No analytics or telemetry**                                                        | P0       | planned  |
-| F-52 | **One permission: `storage`**                                                        | P0       | **done** |
-| F-53 | **Works fully offline**                                                              | P0       | planned  |
+| ID   | Feature                                                              | Priority | Status   |
+| ---- | -------------------------------------------------------------------- | -------- | -------- |
+| F-50 | **Zero network** — enforced by `pnpm guard` against the built bundle | P0       | **done** |
+| F-51 | **No analytics or telemetry**                                        | P0       | **done** |
+| F-52 | **One permission: `storage`**                                        | P0       | **done** |
+| F-53 | **Works fully offline**                                              | P0       | **done** |
 
 ## Performance
 
-| ID   | Budget                                                | Priority | Status                                               |
-| ---- | ----------------------------------------------------- | -------- | ---------------------------------------------------- |
-| F-60 | Popup JS ≤ 60 kB gzipped                              | P0       | **done** — 7.88 kB, with a 20 kB regression tripwire |
-| F-61 | Popup CSS ≤ 10 kB gzipped                             | P0       | **done** — 3.52 kB                                   |
-| F-62 | First UUID visible ≤ 100 ms after the icon is clicked | P0       | planned                                              |
-| F-63 | Bulk 100 generate + render ≤ 50 ms                    | P0       | planned                                              |
+| ID   | Budget                                                | Priority | Status                                                |
+| ---- | ----------------------------------------------------- | -------- | ----------------------------------------------------- |
+| F-60 | Popup JS ≤ 60 kB gzipped                              | P0       | **done** — 17.24 kB, with a 20 kB regression tripwire |
+| F-61 | Popup CSS ≤ 10 kB gzipped                             | P0       | **done** — 4.37 kB                                    |
+| F-62 | First UUID visible ≤ 100 ms after the icon is clicked | P0       | measured at Checkpoint C                              |
+| F-63 | Bulk 100 generate + render ≤ 50 ms                    | P0       | computation asserted; render at Checkpoint C          |
 
 ## Landing page
 

@@ -16,6 +16,7 @@ Closes #
 - [ ] `pnpm typecheck`
 - [ ] `pnpm test`
 - [ ] `pnpm build`
+- [ ] `pnpm guard`
 - [ ] `pnpm size`
 - [ ] Loaded the built extension and used the changed behaviour
 

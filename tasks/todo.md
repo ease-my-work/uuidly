@@ -144,24 +144,48 @@ Order is top-to-bottom except **Phase 6**, which may run in parallel from Phase 
 
 ---
 
-## Phase 5 — Polish, a11y, performance
+## Phase 5 — Polish, a11y, performance ✅ _(automated half)_
 
-- [ ] **T5.1** Theme toggle + final icon set + visual finish — _deps: T4.2_
-  - [ ] Light/dark token sets with manual override, persisted
-  - [ ] Icons reviewed at 16/32/48px on light and dark toolbars
-  - ✅ Every colour pair in DESIGN.md §5 ≥ 4.5:1; theme choice persists
-- [ ] **T5.2** `vitest-axe`, no-network bundle guard, bulk perf assertion, design AC pass — _deps: T5.1_
-  - ✅ Zero axe violations
-  - ✅ Size gates hold: JS ≤ 60 kB gz product budget **and** ≤ 20 kB regression tripwire; CSS ≤ 10 kB gz
-  - ✅ Bundle contains no `fetch(` / `XMLHttpRequest` / `WebSocket`
-  - ✅ Bulk-100 generate + render ≤ 50 ms
-  - ✅ **Every box in DESIGN.md §13 ticked**
-  - 🔎 `pnpm test && pnpm size`; keyboard-only pass; screen-reader smoke test
+- [x] **T5.1** Theme toggle + visual finish — _deps: T4.2_
+  - [x] Three-state control: system → light → dark. `system` removes `data-theme` entirely
+        so `prefers-color-scheme` stays in charge and the popup tracks the OS live
+  - [x] ✅ Choice persists; the accessible name carries the state, since one glyph cannot
+        distinguish three
+  - [ ] Icons reviewed at 16/32/48px on light and dark toolbars — **Checkpoint C**
+  - [ ] Colour pairs measured in a real browser — **Checkpoint C**
+- [x] **T5.2** Accessibility, guard and performance gates — _deps: T5.1_
+  - [x] ✅ Zero axe violations across five states: open, bulk expanded, bulk populated,
+        constant selected, and mid-copy with the live region filled
+  - [x] ✅ Every button, the count field and the slider have accessible names
+  - [x] ✅ Size gates hold: 17.24 kB gz JS (60 kB budget, 20 kB tripwire), 4.37 kB gz CSS
+  - [x] ✅ `pnpm guard` enforces the permission set and the no-network claim on the build
+  - [x] ✅ Bulk-100 generate + format + CSV inside 50 ms, plus a linear-growth shape check
+  - **Deviation:** the no-network check is `scripts/check-bundle.mjs` run as `pnpm guard`,
+    not a Vitest test. A unit test over build output either skips silently when `.output`
+    is stale — worse than no check — or makes `pnpm test` depend on having built first.
+    CI will run it straight after `pnpm build`.
+  - **Found and fixed:** Vite's modulepreload polyfill put a real `fetch(` in the bundle.
+    Chrome MV3 supports modulepreload natively, so it is now disabled rather than
+    allowlisted. The guard's very first run caught it.
+  - **Also fixed:** the guard originally scanned JavaScript for bare URLs and flagged
+    documentation links inside dependency error messages. A string in a thrown error
+    cannot load anything, so it now checks `src`/`href` in markup, where the risk is.
 
-> ### ⛳ CHECKPOINT C — human review
+> ### ⛳ CHECKPOINT C — human review ← **you are here**
 >
-> Feature-complete Chrome extension. Full manual pass against DESIGN.md §13.
-> **Capture screenshots here** — the landing page and the store listing both need them.
+> Feature-complete Chrome extension, and everything checkable automatically is checked.
+> What remains genuinely needs a human at a real browser:
+>
+> - [ ] Every box in [DESIGN.md §13](../docs/DESIGN.md) — frame sizes, contrast in both
+>       themes, focus rings, `prefers-reduced-motion`
+> - [ ] Icon legibility at 16px on a light **and** a dark toolbar
+> - [ ] F-62: first UUID visible ≤ 100 ms after clicking the icon
+> - [ ] F-63: the _render_ half of bulk-100 — only the computation is asserted
+> - [ ] Open an exported CSV in Excel **and** LibreOffice: 101 lines, no mojibake
+> - [ ] Keyboard-only pass with the mouse unplugged; screen-reader smoke test
+> - [ ] **Capture screenshots** — the landing page and the store listing both need them
+>
+> `pnpm build`, then load `.output/chrome-mv3` unpacked at `chrome://extensions`.
 
 ---
 

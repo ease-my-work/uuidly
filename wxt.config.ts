@@ -26,6 +26,14 @@ export default defineConfig({
 
   vite: () => ({
     plugins: [tailwindcss()],
+
+    build: {
+      // Vite's modulepreload polyfill calls fetch() on preload hrefs. Chrome MV3
+      // supports modulepreload natively, so the polyfill is dead weight — and it
+      // is the only fetch() in the bundle, which `pnpm guard` (F-50) rejects.
+      modulePreload: { polyfill: false },
+    },
+
     // The React API, on the Preact runtime. Measured at scaffold time: real
     // react+react-dom cost 59.63 kB gzipped against a 60 kB budget (F-60), i.e.
     // the whole budget before a single feature existed. preact/compat is 7.88 kB
