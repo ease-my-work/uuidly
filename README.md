@@ -116,8 +116,9 @@ third-party requests, which is enforced by a test.
 
 ## Privacy
 
-uuidly stores three values in `chrome.storage.local` on your machine — your UUID version,
-your formatting preferences, and your bulk count — and does nothing else with anything.
+uuidly stores four values in `chrome.storage.local` on your machine — your UUID version,
+your formatting preferences, your bulk count and your theme choice — and does nothing else
+with anything.
 
 No analytics. No telemetry. No network requests. No remote code. Read
 [SECURITY.md](SECURITY.md) for how each of those is actually enforced rather than merely

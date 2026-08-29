@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Privacy policy — uuidly</title>
+    <meta
+      name="description"
+      content="uuidly collects nothing, transmits nothing and makes no network requests. Four interface preferences are stored locally on your own machine."
+    />
+    <link rel="canonical" href="https://ease-my-work.github.io/uuidly/privacy.html" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="topbar">
+      <a class="wordmark" href="./" style="text-decoration: none; color: inherit"
+        ><span class="mark" aria-hidden="true"></span>uuidly</a
+      >
+      <a
+        class="ghost"
+        href="https://github.com/ease-my-work/uuidly"
+        rel="noreferrer noopener"
+        >GitHub</a
+      >
+    </header>
+
+    <main id="main" class="section" style="border-top: 0">
+      <h1 style="font-size: 2.2rem">Privacy policy</h1>
+      <p class="lede">Last updated: 29 August 2026</p>
+
+      <p class="lede" style="max-width: 70ch">
+        uuidly does not collect, transmit, sell or share any data about you. This policy
+        is short because there is very little to describe.
+      </p>
+
+      <h2 style="margin-top: 2.5rem">What is collected</h2>
+      <p style="color: var(--text-dim); max-width: 70ch">
+        Nothing. uuidly has no analytics, no telemetry, no crash reporting and no
+        accounts. It makes no network requests of any kind, so there is no mechanism by
+        which data could reach us or anyone else, and no server for it to reach.
+      </p>
+
+      <h2 style="margin-top: 2.5rem">What is stored on your device</h2>
+      <p style="color: var(--text-dim); max-width: 70ch">
+        Four interface preferences are saved in your browser's local extension storage
+        (<code>chrome.storage.local</code>) so the popup opens the way you left it:
+      </p>
+      <ul class="claims" style="margin-top: 1rem">
+        <li>the UUID version you last selected;</li>
+        <li>your formatting choices — uppercase, hyphens, and the wrapper;</li>
+        <li>the bulk generation count;</li>
+        <li>your theme choice — system, light or dark.</li>
+      </ul>
+      <p style="color: var(--text-dim); max-width: 70ch; margin-top: 1rem">
+        That is the complete list. The UUIDs you generate are not stored. This data stays
+        on your own machine, is never transmitted, and is removed when you uninstall the
+        extension. You can clear it at any time by removing and reinstalling uuidly.
+      </p>
+
+      <h2 style="margin-top: 2.5rem">Permissions</h2>
+      <p style="color: var(--text-dim); max-width: 70ch">
+        uuidly requests a single permission, <code>storage</code>, which is what allows
+        the four preferences above to persist. It requests no host permissions and runs no
+        content scripts, so it cannot read or modify any page you visit — including this
+        one.
+      </p>
+
+      <h2 style="margin-top: 2.5rem">Third parties</h2>
+      <p style="color: var(--text-dim); max-width: 70ch">
+        None. No third-party services, SDKs, fonts or scripts are used by the extension or
+        by this website. Nothing you do is disclosed to anyone, because nothing is
+        recorded.
+      </p>
+
+      <h2 style="margin-top: 2.5rem">Clipboard</h2>
+      <p style="color: var(--text-dim); max-width: 70ch">
+        uuidly writes to your clipboard when you ask it to. It never reads your clipboard.
+      </p>
+
+      <h2 style="margin-top: 2.5rem">Children</h2>
+      <p style="color: var(--text-dim); max-width: 70ch">
+        uuidly is a developer tool and is not directed at children. Since it collects no
+        data from anyone, it collects none from children either.
+      </p>
+
+      <h2 style="margin-top: 2.5rem">Verifying this</h2>
+      <p style="color: var(--text-dim); max-width: 70ch">
+        You do not have to take any of this on trust. uuidly is MIT-licensed and the
+        source is public. The claims above are enforced by a check that runs on every
+        change and fails the build if the extension gains a permission, a host permission,
+        a content script or any network API. See
+        <a
+          href="https://github.com/ease-my-work/uuidly/blob/master/SECURITY.md"
+          rel="noreferrer noopener"
+          >SECURITY.md</a
+        >
+        for how each one is enforced.
+      </p>
+
+      <h2 style="margin-top: 2.5rem">Changes</h2>
+      <p style="color: var(--text-dim); max-width: 70ch">
+        If this policy ever changes, the updated version will be published here with a new
+        date, and the change will appear in the project's
+        <a
+          href="https://github.com/ease-my-work/uuidly/blob/master/CHANGELOG.md"
+          rel="noreferrer noopener"
+          >changelog</a
+        >
+        alongside the code change that caused it.
+      </p>
+
+      <h2 style="margin-top: 2.5rem">Contact</h2>
+      <p style="color: var(--text-dim); max-width: 70ch">
+        Questions go to
+        <a href="https://github.com/ease-my-work/uuidly/issues" rel="noreferrer noopener"
+          >GitHub issues</a
+        >. For anything security-related, please use a
+        <a
+          href="https://github.com/ease-my-work/uuidly/security/advisories/new"
+          rel="noreferrer noopener"
+          >private security advisory</a
+        >
+        instead of a public issue.
+      </p>
+    </main>
+
+    <footer>
+      <p>
+        <a href="./">Home</a>
+        ·
+        <a href="https://github.com/ease-my-work/uuidly" rel="noreferrer noopener"
+          >Source</a
+        >
+        ·
+        <a
+          href="https://github.com/ease-my-work/uuidly/blob/master/LICENSE"
+          rel="noreferrer noopener"
+          >MIT</a
+        >
+      </p>
+      <p class="muted">No cookies, no analytics, nothing to accept.</p>
+    </footer>
+  </body>
+</html>

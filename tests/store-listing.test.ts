@@ -54,3 +54,48 @@ describe('the listing agrees with the manifest', () => {
     expect(listing).toMatch(/\|\s*Data collection\s*\|\s*None\./);
   });
 });
+
+describe('the privacy claims match what is actually stored', () => {
+  const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
+
+  const prefs = readFileSync(resolve(ROOT, 'src/lib/prefs.ts'), 'utf8');
+  const security = readFileSync(resolve(ROOT, 'SECURITY.md'), 'utf8');
+  const privacy = readFileSync(resolve(ROOT, 'site/privacy.html'), 'utf8');
+
+  /** Every `storage.defineItem('local:…')` is one thing this extension keeps. */
+  const storedKeys = [...prefs.matchAll(/defineItem<[^>]*>\(\s*'local:([a-z]+)'/g)].map(
+    (m) => m[1]!,
+  );
+
+  it('stores only the keys the documents describe', () => {
+    expect(storedKeys.sort()).toEqual(['count', 'format', 'kind', 'theme']);
+  });
+
+  it.each([
+    ['SECURITY.md', () => security],
+    ['site/privacy.html', () => privacy],
+    ['docs/STORE-LISTING.md', () => listing],
+  ])('%s states the right number of stored values', (_name, read) => {
+    // This has already gone stale once: the theme preference was added and three
+    // documents kept saying "three values". A store listing that understates what
+    // an extension stores is the kind of inaccuracy that matters.
+    const word = WORDS[storedKeys.length]!;
+    expect(read().toLowerCase()).toContain(word);
+    for (const stale of WORDS.filter((_word, i) => i !== storedKeys.length && i > 1)) {
+      expect(read().toLowerCase()).not.toMatch(
+        new RegExp(`${stale} (values|interface preferences)`),
+      );
+    }
+  });
+
+  it('publishes a privacy policy that names every stored item', () => {
+    expect(privacy).toContain('chrome.storage.local');
+    expect(privacy).toMatch(/UUID version/i);
+    expect(privacy).toMatch(/formatting/i);
+    expect(privacy).toMatch(/bulk generation count/i);
+    expect(privacy).toMatch(/theme choice/i);
+    // The URL submitted to the store has to resolve to this file.
+    expect(privacy).toContain('https://ease-my-work.github.io/uuidly/privacy.html');
+    expect(listing).toContain('https://ease-my-work.github.io/uuidly/privacy.html');
+  });
+});

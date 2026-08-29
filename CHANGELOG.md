@@ -92,6 +92,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   each is scaled onto a 1280×800 canvas with a headline, handwritten callouts and a caption,
   then written as 24-bit PNG with no alpha channel — which the store requires and a raw
   screenshot does not provide.
+- Privacy policy at `site/privacy.html`, which is the URL the Chrome Web Store listing
+  points at. Tests tie its stored-value list back to `src/lib/prefs.ts`.
 - Landing page in `site/`, deployed to GitHub Pages by an Action. Hand-written HTML, CSS and
   one script — no framework, no build step, and no third-party request of any kind, which a
   test asserts rather than merely intending. The hero is a working replica of the popup

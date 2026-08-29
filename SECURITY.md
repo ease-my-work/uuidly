@@ -38,11 +38,12 @@ a bug.
 
 ## What is stored
 
-Three values, in `chrome.storage.local`, on your machine only:
+Four values, in `chrome.storage.local`, on your machine only:
 
 - your selected UUID version,
 - your formatting preferences,
-- your last bulk count.
+- your last bulk count,
+- your theme choice (system, light or dark).
 
 That is the complete list. Nothing is synced, transmitted or shared.
 

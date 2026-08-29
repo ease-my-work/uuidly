@@ -10,11 +10,12 @@ Companion: [PUBLISHING.md](PUBLISHING.md) (release mechanics) · [MAINTAINING.md
 
 ## Identity
 
-| Field    | Value                     |
-| -------- | ------------------------- |
-| Name     | `uuidly — UUID Generator` |
-| Category | Developer Tools           |
-| Language | English (UK)              |
+| Field              | Value                                                |
+| ------------------ | ---------------------------------------------------- |
+| Name               | `uuidly — UUID Generator`                            |
+| Category           | Developer Tools                                      |
+| Language           | English (UK)                                         |
+| Privacy policy URL | `https://ease-my-work.github.io/uuidly/privacy.html` |
 
 ## Short description
 
@@ -57,13 +58,13 @@ https://github.com/ease-my-work/uuidly
 
 These answers must stay true. Each is enforced by `pnpm guard` against the built extension.
 
-| Question                | Answer                                                                                                                  |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Single purpose          | Generate UUIDs and copy them to the clipboard.                                                                          |
-| `storage` justification | Remembers the user's selected UUID version, formatting options and bulk count between sessions. Nothing else is stored. |
-| Other permissions       | None requested.                                                                                                         |
-| Remote code             | No. Everything is bundled at build time; no `eval`, no remotely hosted scripts.                                         |
-| Data collection         | None. The extension makes no network requests, which is enforced by a build-time check.                                 |
+| Question                | Answer                                                                                                                                |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Single purpose          | Generate UUIDs and copy them to the clipboard.                                                                                        |
+| `storage` justification | Remembers the user's selected UUID version, formatting options, bulk count and theme choice between sessions. Nothing else is stored. |
+| Other permissions       | None requested.                                                                                                                       |
+| Remote code             | No. Everything is bundled at build time; no `eval`, no remotely hosted scripts.                                                       |
+| Data collection         | None. The extension makes no network requests, which is enforced by a build-time check.                                               |
 
 Tick nothing in the data-collection matrix. If a future change requires ticking a box, it
 also requires updating [SECURITY.md](../SECURITY.md), the README and this file.
@@ -84,7 +85,7 @@ Every feature serves that one purpose: choosing a version (v1, v4, v7, or the NI
 **Permission justification — `storage`**
 
 ```
-uuidly uses chrome.storage.local to remember three interface preferences between sessions: the selected UUID version, the formatting options (uppercase, hyphens, and the braces / quotes / urn:uuid: wrapper), and the bulk generation count.
+uuidly uses chrome.storage.local to remember four interface preferences between sessions: the selected UUID version, the formatting options (uppercase, hyphens, and the braces / quotes / urn:uuid: wrapper), the bulk generation count, and the theme choice (system, light or dark).
 
 Without it, the popup would reset to its defaults every time it is opened, which for a tool whose value is being instant would defeat its purpose.
 
