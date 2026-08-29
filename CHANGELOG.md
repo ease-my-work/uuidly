@@ -88,6 +88,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   with tests tying the short description's length and the permission claims back to the
   code — a listing is reviewed once and then lives for years while the code keeps moving.
 - `pnpm promo` generates the 440×280 store tile.
+- `pnpm screenshots` composes the five Chrome Web Store screenshots from raw popup captures:
+  each is scaled onto a 1280×800 canvas with a headline, handwritten callouts and a caption,
+  then written as 24-bit PNG with no alpha channel — which the store requires and a raw
+  screenshot does not provide.
 - Landing page in `site/`, deployed to GitHub Pages by an Action. Hand-written HTML, CSS and
   one script — no framework, no build step, and no third-party request of any kind, which a
   test asserts rather than merely intending. The hero is a working replica of the popup

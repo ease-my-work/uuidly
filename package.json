@@ -43,7 +43,8 @@
     "icons": "node scripts/gen-icons.mjs",
     "postinstall": "wxt prepare",
     "og": "node scripts/gen-og.mjs",
-    "promo": "node scripts/gen-promo.mjs"
+    "promo": "node scripts/gen-promo.mjs",
+    "screenshots": "node scripts/gen-store-screenshots.mjs"
   },
   "dependencies": {
     "preact": "^10.29.8",
@@ -51,6 +52,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@resvg/resvg-js": "^2.6.2",
     "@size-limit/file": "^13.0.3",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/dom": "^10.4.1",

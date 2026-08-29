@@ -70,6 +70,51 @@ export function encodePng(width, height, rgba) {
   ]);
 }
 
+/**
+ * Encode as 24-bit RGB with no alpha channel (PNG colour type 2).
+ *
+ * The Chrome Web Store rejects screenshots with an alpha channel, so RGBA is
+ * flattened onto `background` rather than simply having its alpha dropped —
+ * dropping it would leave transparent pixels carrying whatever colour happened
+ * to sit underneath, usually black fringing on antialiased edges.
+ *
+ * @param {Uint8Array} rgba Row-major RGBA8 pixels.
+ * @param {[number, number, number]} background Colour to composite onto.
+ */
+export function encodePngRgb(width, height, rgba, background = [0, 0, 0]) {
+  const stride = width * 3;
+  const raw = Buffer.alloc((stride + 1) * height);
+
+  for (let y = 0; y < height; y++) {
+    const rowStart = y * (stride + 1);
+    raw[rowStart] = 0; // filter type: None
+    for (let x = 0; x < width; x++) {
+      const src = (y * width + x) * 4;
+      const dst = rowStart + 1 + x * 3;
+      const a = rgba[src + 3] / 255;
+      for (let c = 0; c < 3; c++) {
+        raw[dst + c] = Math.round(rgba[src + c] * a + background[c] * (1 - a));
+      }
+    }
+  }
+
+  const ihdr = Buffer.alloc(13);
+  ihdr.writeUInt32BE(width, 0);
+  ihdr.writeUInt32BE(height, 4);
+  ihdr[8] = 8; // bit depth
+  ihdr[9] = 2; // colour type: RGB, no alpha
+  ihdr[10] = 0;
+  ihdr[11] = 0;
+  ihdr[12] = 0;
+
+  return Buffer.concat([
+    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+    chunk('IHDR', ihdr),
+    chunk('IDAT', deflateSync(raw, { level: 9 })),
+    chunk('IEND', Buffer.alloc(0)),
+  ]);
+}
+
 /** Source-over composite of `rgb` at `alpha` onto pixel `i` of `dst`. */
 export function blend(dst, i, rgb, alpha) {
   if (alpha <= 0) return;

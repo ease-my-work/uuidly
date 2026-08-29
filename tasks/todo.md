@@ -285,8 +285,10 @@ the entire reason to pick v7, and the page claims it. Fixed with an RFC 9562 §6
   - [x] A test also ties the listing's permission claims to `wxt.config.ts`, so adding a
         permission fails the build rather than quietly making the listing untrue
   - [x] 128×128 icon (`pnpm icons`) and 440×280 promo tile (`pnpm promo`) generated
-  - [ ] **1280×800 screenshots** — must be captured from the real popup. Shot list in
-        STORE-LISTING.md. This is the one asset that cannot be generated
+  - [x] **1280×800 screenshots done** — five, in `store/listing/`, composed by
+        `pnpm screenshots` from your raw popup captures: scaled onto a canvas with a
+        headline, handwritten callouts and a caption, then encoded as 24-bit PNG with **no
+        alpha**, which the store requires and a raw capture does not satisfy
   - [ ] Create the listing, paste the copy, submit. Needs your developer account
 - [ ] **T8.3** Tag `v1.0.0`, finalise `CHANGELOG.md`, seed `good first issue` backlog — _deps: T8.2_
   - [ ] Move `Unreleased` to a `1.0.0` heading with the date
