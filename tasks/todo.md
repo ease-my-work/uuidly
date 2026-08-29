@@ -100,16 +100,22 @@ Order is top-to-bottom except **Phase 6**, which may run in parallel from Phase 
 
 ---
 
-## Phase 3 — Formatting + persistence
+## Phase 3 — Formatting + persistence ✅
 
-- [ ] **T3.1** `lib/format.ts` + `FormatBar` — case, hyphens, wrapper — _deps: T2.2_
-  - ✅ All 16 combinations correct; toggling never regenerates the value
-  - ✅ Copy copies the formatted string; chips styled per DESIGN.md §7.6
-  - 🔎 `pnpm test src/lib/format.test.ts` (table-driven)
-- [ ] **T3.2** `lib/prefs.ts` via `wxt/storage`, hydrate after first paint — _deps: T3.1_
-  - ✅ Version + format + count survive close/reopen
-  - ✅ UUID is on screen before hydration resolves; no skeleton, no flash of empty
-  - 🔎 Manual reopen cycle + test with a 50 ms delayed `storage.getItem`
+- [x] **T3.1** `lib/format.ts` + `FormatBar` — case, hyphens, wrapper — _deps: T2.2_
+  - [x] ✅ All 16 combinations table-tested; toggling never regenerates the value
+  - [x] ✅ `urn:uuid:` prefix stays lowercase even when the UUID is uppercased (RFC 9562 §4)
+  - [x] ✅ Wrapper delimiters are never swept up by the case change
+  - [x] ✅ Copy copies the **formatted** string; chips carry `aria-pressed` and spoken labels
+  - [x] ✅ Changing a chip clears the copy confirmation — the clipboard is now stale
+- [x] **T3.2** `lib/prefs.ts` via `wxt/utils/storage`, hydrate after first paint — _deps: T3.1_
+  - [x] ✅ Version and format survive close/reopen (count lands with the field in T4.1)
+  - [x] ✅ A UUID is on screen before storage answers — tested against a deliberately
+        unresolved `getValue`
+  - [x] ✅ A choice made while storage is still loading is **not** overwritten when it
+        arrives; `touched` guards the write and `raw === initialUuid` guards the regenerate
+  - **Bundle note:** adding storage took the popup from 11.65 → 15.48 kB gz. Still inside
+    the 20 kB tripwire, but that is now the binding constraint rather than the 60 kB budget.
 
 ---
 

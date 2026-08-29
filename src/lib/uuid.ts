@@ -21,6 +21,12 @@ export const KINDS = [
   'max',
 ] as const satisfies readonly UuidKind[];
 
+/**
+ * What a first-time user gets, and what the popup seeds before it knows the
+ * stored preference. Shared so `main.tsx` and `App.tsx` cannot disagree.
+ */
+export const DEFAULT_KIND: UuidKind = 'v4';
+
 /** Tab labels — see docs/DESIGN.md §7.2. */
 export const LABELS: Record<UuidKind, string> = {
   v4: 'v4',

@@ -1,11 +1,14 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ActionRow } from '@/components/ActionRow';
+import { FormatBar } from '@/components/FormatBar';
 import { Header } from '@/components/Header';
 import { UuidDisplay } from '@/components/UuidDisplay';
 import { tabId, VersionTabs } from '@/components/VersionTabs';
 import { useCopy } from '@/hooks/useCopy';
 import { useHotkeys } from '@/hooks/useHotkeys';
-import { generate, IS_CONSTANT, type UuidKind } from '@/lib/uuid';
+import { usePrefs } from '@/hooks/usePrefs';
+import { applyFormat, type FormatOpts } from '@/lib/format';
+import { DEFAULT_KIND, generate, IS_CONSTANT, type UuidKind } from '@/lib/uuid';
 
 const PANEL_ID = 'uuidly-value-panel';
 
@@ -18,25 +21,39 @@ interface AppProps {
 }
 
 export default function App({ initialUuid }: AppProps) {
-  const [kind, setKind] = useState<UuidKind>('v4');
-  const [uuid, setUuid] = useState(initialUuid);
+  const { kind, format, hydrated, setKind, setFormat } = usePrefs();
+  const [raw, setRaw] = useState(initialUuid);
   const [shake, setShake] = useState(false);
   const { state, copy, reset } = useCopy();
 
+  // What the user sees, and exactly what gets copied.
+  const value = applyFormat(raw, format);
   const canRefresh = !IS_CONSTANT[kind];
 
+  /**
+   * Adopt the stored version once preferences arrive.
+   *
+   * `raw === initialUuid` means the user has not acted yet. If they have, their
+   * choice already replaced the seeded value and must not be overwritten by a
+   * preference that was merely slower to load.
+   */
+  useEffect(() => {
+    if (!hydrated) return;
+    if (kind !== DEFAULT_KIND && raw === initialUuid) setRaw(generate(kind));
+  }, [hydrated, kind, raw, initialUuid]);
+
   const handleCopy = useCallback(() => {
-    void copy(uuid);
-  }, [copy, uuid]);
+    void copy(value);
+  }, [copy, value]);
 
   const handleSelect = useCallback(
     (next: UuidKind) => {
       setKind(next);
-      setUuid(generate(next));
+      setRaw(generate(next));
       // The confirmation referred to the previous value.
       reset();
     },
-    [reset],
+    [reset, setKind],
   );
 
   const handleRefresh = useCallback(() => {
@@ -45,9 +62,18 @@ export default function App({ initialUuid }: AppProps) {
       setShake(true);
       return;
     }
-    setUuid(generate(kind));
+    setRaw(generate(kind));
     reset();
   }, [kind, reset]);
+
+  const handleFormat = useCallback(
+    (next: FormatOpts) => {
+      setFormat(next);
+      // The UUID is untouched, but the string on the clipboard is now stale.
+      reset();
+    },
+    [reset, setFormat],
+  );
 
   const handleClose = useCallback(() => {
     window.close();
@@ -65,7 +91,7 @@ export default function App({ initialUuid }: AppProps) {
       <Header />
       <VersionTabs active={kind} onSelect={handleSelect} panelId={PANEL_ID} />
       <UuidDisplay
-        value={uuid}
+        value={value}
         copyState={state}
         onCopy={handleCopy}
         panelId={PANEL_ID}
@@ -79,6 +105,7 @@ export default function App({ initialUuid }: AppProps) {
         onRefresh={handleRefresh}
         onShakeEnd={() => setShake(false)}
       />
+      <FormatBar format={format} onChange={handleFormat} />
     </main>
   );
 }

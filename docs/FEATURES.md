@@ -31,12 +31,12 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 ## Formatting
 
-| ID   | Feature                                                                    | Priority | Status  |
-| ---- | -------------------------------------------------------------------------- | -------- | ------- |
-| F-20 | **Case toggle** — lowercase (default) / UPPERCASE                          | P1       | planned |
-| F-21 | **Hyphens toggle** — hyphenated (default) / bare                           | P1       | planned |
-| F-22 | **Wrapper** — none / `{braces}` / `"quotes"` / `urn:uuid:`                 | P1       | planned |
-| F-23 | **Live preview** — format changes re-render without regenerating the value | P1       | planned |
+| ID   | Feature                                                                    | Priority | Status   |
+| ---- | -------------------------------------------------------------------------- | -------- | -------- |
+| F-20 | **Case toggle** — lowercase (default) / UPPERCASE                          | P1       | **done** |
+| F-21 | **Hyphens toggle** — hyphenated (default) / bare                           | P1       | **done** |
+| F-22 | **Wrapper** — none / `{braces}` / `"quotes"` / `urn:uuid:`                 | P1       | **done** |
+| F-23 | **Live preview** — format changes re-render without regenerating the value | P1       | **done** |
 
 ## Bulk
 
@@ -50,13 +50,13 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 ## Persistence & UX
 
-| ID   | Feature                                                                | Priority | Status                          |
-| ---- | ---------------------------------------------------------------------- | -------- | ------------------------------- |
-| F-40 | **Remembers version, format and count** across sessions                | P1       | planned                         |
-| F-41 | **Non-blocking hydration** — never awaits storage before first paint   | P1       | planned                         |
-| F-42 | **Dark-first theme** — follows `prefers-color-scheme`, manual override | P1       | planned                         |
-| F-43 | **Full keyboard nav** — `1`–`5`, `R`, `C`, `B`, `Esc`                  | P1       | tabs, R, C, Esc done; B in T4.1 |
-| F-44 | **WCAG 2.1 AA** — contrast ≥ 4.5:1, labelled controls, live regions    | P1       | planned                         |
+| ID   | Feature                                                                | Priority | Status                               |
+| ---- | ---------------------------------------------------------------------- | -------- | ------------------------------------ |
+| F-40 | **Remembers version, format and count** across sessions                | P1       | version + format done; count in T4.1 |
+| F-41 | **Non-blocking hydration** — never awaits storage before first paint   | P1       | **done**                             |
+| F-42 | **Dark-first theme** — follows `prefers-color-scheme`, manual override | P1       | planned                              |
+| F-43 | **Full keyboard nav** — `1`–`5`, `R`, `C`, `B`, `Esc`                  | P1       | tabs, R, C, Esc done; B in T4.1      |
+| F-44 | **WCAG 2.1 AA** — contrast ≥ 4.5:1, labelled controls, live regions    | P1       | planned                              |
 
 ## Privacy & trust
 

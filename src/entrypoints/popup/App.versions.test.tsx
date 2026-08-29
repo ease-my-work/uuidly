@@ -1,8 +1,15 @@
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { fakeBrowser } from 'wxt/testing/fake-browser';
 import App from './App';
 import { generate } from '@/lib/uuid';
+
+// The popup persists the selected version from T3.2 onward, so each test needs a
+// clean store — otherwise one test's choice hydrates into the next.
+beforeEach(() => {
+  fakeBrowser.reset();
+});
 
 const NIL = '00000000-0000-0000-0000-000000000000';
 const MAX = 'ffffffff-ffff-ffff-ffff-ffffffffffff';

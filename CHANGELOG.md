@@ -35,6 +35,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Shortcuts are inert while typing in a field.
 - NIL and MAX are treated as the constants they are: Refresh is `aria-disabled` with an
   explanation and shakes rather than pretending to do something.
+- Formatting options: uppercase, hyphens, and a wrapper that cycles through none,
+  `{braces}`, `"quotes"` and `urn:uuid:`. Changing one re-renders the value in place and
+  never regenerates it, and what reaches the clipboard is exactly the formatted string on
+  screen. The `urn:uuid:` prefix stays lowercase even when the UUID is uppercased, per
+  RFC 9562 §4.
+- Preferences persist: the selected version and formatting are stored in
+  `chrome.storage.local` and restored on the next open. They are read _after_ the first
+  paint, never before it, and a choice made while storage is still loading is not
+  overwritten when it arrives.
 
 ### Changed
 
