@@ -52,7 +52,7 @@ export function UuidDisplay({
   return (
     <div role="tabpanel" id={panelId} aria-labelledby={labelledBy} className="px-3 pt-3">
       <div
-        className={`bg-surface rounded-card border px-3 pt-3 pb-2.5 transition-colors duration-[120ms] ${border}`}
+        className={`bg-surface rounded-card group border px-3 pt-3 pb-2 transition-colors duration-[120ms] ${border}`}
       >
         <div className="flex items-center gap-2">
           {/*
@@ -118,7 +118,25 @@ export function UuidDisplay({
           </button>
         </div>
 
-        <p className={`mt-1.5 text-right text-[11px] ${hint}`}>{HINT[copyState]}</p>
+        {/*
+          Decorative: the copy control's own label already says what it does, and
+          the copied/failed states are announced by the live region below. Its
+          height is reserved so revealing it never shifts the layout.
+        */}
+        <p
+          aria-hidden="true"
+          data-state={copyState}
+          className={`mt-1 h-4 text-right text-[11px] leading-4 transition-opacity duration-[120ms] ${hint} ${
+            // At rest the hint is noise once you know the interaction. On hover
+            // it explains; on focus-within it does the same for keyboard users,
+            // who never hover.
+            copied || failed
+              ? 'opacity-100'
+              : 'opacity-0 group-focus-within:opacity-100 group-hover:opacity-100'
+          }`}
+        >
+          {HINT[copyState]}
+        </p>
       </div>
 
       <span aria-live="polite" className="sr-only">

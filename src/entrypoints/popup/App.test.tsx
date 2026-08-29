@@ -58,9 +58,15 @@ describe('first paint', () => {
     expect(displayed()).toBe(initialUuid);
   });
 
-  it('invites the user to copy', () => {
+  it('keeps the copy hint out of the way until hover or focus', () => {
     renderPopup();
-    expect(screen.getByText('click to copy')).toBeInTheDocument();
+    const hint = screen.getByText('click to copy');
+    // Present and height-reserved so revealing it shifts nothing, but not shown
+    // at rest — CSS reveals it on group-hover and group-focus-within.
+    expect(hint).toHaveAttribute('data-state', 'idle');
+    expect(hint.className).toContain('opacity-0');
+    expect(hint.className).toContain('group-hover:opacity-100');
+    expect(hint.className).toContain('group-focus-within:opacity-100');
   });
 });
 
@@ -105,7 +111,10 @@ describe('copying', () => {
 
     await user.click(screen.getByRole('button', { name: /^Copy UUID/ }));
 
-    expect(await screen.findByText('✓ Copied')).toBeInTheDocument();
+    const hint = await screen.findByText('✓ Copied');
+    // The confirmation must not depend on the pointer being over the card.
+    expect(hint.className).toContain('opacity-100');
+    expect(hint.className).not.toContain('opacity-0');
     expect(screen.getByText(`Copied ${onScreen}`)).toBeInTheDocument();
     // The icon button swaps to a check. Its accessible name deliberately stays
     // "Copy" so repeat activation is predictable, so the state is asserted here.
