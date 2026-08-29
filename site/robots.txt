@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ease-my-work.github.io/uuidly/sitemap.xml

@@ -1,0 +1,112 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  # For re-running a submission without cutting a new tag.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to release (e.g. v1.0.0)'
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Verify, zip, publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    permissions:
+      # To create the GitHub Release and upload the ZIP to it.
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+
+      - name: Set up Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Check the tag matches package.json
+        # A tag that disagrees with the manifest version produces a release whose
+        # name is a lie, and a store submission that is hard to trace back.
+        run: |
+          TAG="${{ inputs.tag || github.ref_name }}"
+          PKG="v$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::Tag $TAG does not match package.json ($PKG). Bump one of them."
+            exit 1
+          fi
+          echo "Releasing $TAG"
+
+      # The full CI gate again, on the exact commit being published. CI having
+      # passed on the branch is not the same as passing on this tag.
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Guard permissions and no-network claims
+        run: pnpm guard
+
+      - name: Check bundle budgets
+        run: pnpm size
+
+      - name: Zip for the Chrome Web Store
+        run: pnpm zip
+
+      - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        # `gh` ships on the runner, so this needs no third-party action and no
+        # extra SHA to keep current.
+        run: |
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --generate-notes \
+            --verify-tag \
+            .output/*-chrome.zip
+
+      - name: Submit to the Chrome Web Store
+        # Skipped rather than failed when the secrets are absent, so forks and
+        # dry runs still exercise everything above this line.
+        if: env.CHROME_EXTENSION_ID != ''
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        run: pnpm wxt submit --chrome-zip .output/*-chrome.zip
+
+      - name: Note when publishing was skipped
+        if: env.CHROME_EXTENSION_ID == ''
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+        run: |
+          echo "::notice::Store secrets are not configured, so the ZIP was attached to the release but not submitted. See docs/PUBLISHING.md."

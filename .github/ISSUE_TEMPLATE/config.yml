@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/ease-my-work/uuidly/security/advisories/new
+    about: Report privately. Never open a public issue for a security problem.
+  - name: Ask a question or share an idea
+    url: https://github.com/ease-my-work/uuidly/discussions
+    about: For anything that is not yet a concrete bug or feature request.
+  - name: Contributing guide
+    url: https://github.com/ease-my-work/uuidly/blob/master/CONTRIBUTING.md
+    about: How to set up the project and get a change merged.
