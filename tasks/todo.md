@@ -263,19 +263,34 @@ the entire reason to pick v7, and the page claims it. Fixed with an RFC 9562 §6
 
 ---
 
-## Phase 8 — Chrome release & Web Store publishing
+## Phase 8 — Chrome release & Web Store publishing _(workflow done; submission is yours)_
 
-- [ ] **T8.1** `release.yml` — tag → `wxt zip` → GitHub Release → `wxt submit` (secret-guarded) — _deps: T6.3, T5.2_
-  - ✅ RC tag produces `*-chrome.zip` on the Release
-  - ✅ Submit skips cleanly without secrets, so forks are unaffected
-  - 🔎 Push an RC tag on a branch, inspect assets, delete tag + release
-- [ ] **T8.2** Chrome Web Store listing + submission — _deps: T8.1_
-  - [ ] 1280×800 screenshots, 440×280 tile, 128×128 icon
-  - [ ] Privacy-practices answers per [docs/PUBLISHING.md](../docs/PUBLISHING.md)
-  - ✅ Draft passes validation; real store URL lands in `README.md` and `site/`
+- [x] **T8.1** `release.yml` — _deps: T6.3, T5.2_
+  - [x] Tag `v*` → verify → `wxt zip` → GitHub Release → `wxt submit`, secret-guarded
+  - [x] **Re-runs the full gate on the tagged commit.** CI passing on the branch is not the
+        same as passing on this commit, and a release is the worst place to find that out
+  - [x] **Fails if the tag disagrees with `package.json`.** A `v1.0.1` tag on a `1.0.0`
+        manifest produces a release whose name is a lie and a submission that is hard to
+        trace back
+  - [x] The Release is created with `gh`, which ships on the runner — no third-party action
+        and no extra SHA to keep current
+  - [x] Submission is **skipped, not failed**, when secrets are absent, so forks still
+        exercise everything above it. A notice says so in the run summary
+  - [ ] **Verify with an RC tag** — push `v0.1.0-rc.1` on a branch, inspect the assets, then
+        delete the tag and release. Needs a push
+- [~] **T8.2** Chrome Web Store listing + submission — _deps: T8.1_
+  - [x] All copy written and cross-checked: [docs/STORE-LISTING.md](../docs/STORE-LISTING.md)
+  - [x] Short description is 130 of 132 characters — **asserted by a test**, because "just
+        under the limit" stops being true after one edit and the store truncates silently
+  - [x] A test also ties the listing's permission claims to `wxt.config.ts`, so adding a
+        permission fails the build rather than quietly making the listing untrue
+  - [x] 128×128 icon (`pnpm icons`) and 440×280 promo tile (`pnpm promo`) generated
+  - [ ] **1280×800 screenshots** — must be captured from the real popup. Shot list in
+        STORE-LISTING.md. This is the one asset that cannot be generated
+  - [ ] Create the listing, paste the copy, submit. Needs your developer account
 - [ ] **T8.3** Tag `v1.0.0`, finalise `CHANGELOG.md`, seed `good first issue` backlog — _deps: T8.2_
-  - ✅ Changelog lists every shipped F-ID; ≥ 3 starter issues
-  - ✅ `docs/FEATURES.md` statuses set to `done`
+  - [ ] Move `Unreleased` to a `1.0.0` heading with the date
+  - [ ] ≥ 3 starter issues; `docs/FEATURES.md` statuses to `done`
 
 > ### ⛳ CHECKPOINT D — Chrome launch review
 >

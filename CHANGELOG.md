@@ -79,6 +79,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   paint, never before it, and a choice made while storage is still loading is not
   overwritten when it arrives.
 
+- Release workflow: a `v*` tag re-runs the full gate on the tagged commit, refuses to
+  proceed if the tag disagrees with `package.json`, zips the extension, creates a GitHub
+  Release with the ZIP attached, and submits to the Chrome Web Store when the secrets are
+  present. Without them it skips the submission rather than failing, so forks still exercise
+  everything else.
+- Store listing copy, privacy-form answers and asset checklist in `docs/STORE-LISTING.md`,
+  with tests tying the short description's length and the permission claims back to the
+  code — a listing is reviewed once and then lives for years while the code keeps moving.
+- `pnpm promo` generates the 440×280 store tile.
 - Landing page in `site/`, deployed to GitHub Pages by an Action. Hand-written HTML, CSS and
   one script — no framework, no build step, and no third-party request of any kind, which a
   test asserts rather than merely intending. The hero is a working replica of the popup

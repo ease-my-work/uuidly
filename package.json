@@ -42,7 +42,8 @@
     "guard": "node scripts/check-bundle.mjs",
     "icons": "node scripts/gen-icons.mjs",
     "postinstall": "wxt prepare",
-    "og": "node scripts/gen-og.mjs"
+    "og": "node scripts/gen-og.mjs",
+    "promo": "node scripts/gen-promo.mjs"
   },
   "dependencies": {
     "preact": "^10.29.8",

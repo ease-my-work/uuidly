@@ -65,6 +65,10 @@ WXT's publishing guide has the current walkthrough for obtaining the OAuth value
 
 ## Chrome Web Store listing
 
+> The exact copy, the privacy-form answers and the asset checklist live in
+> [STORE-LISTING.md](STORE-LISTING.md), written once so the listing and the product cannot
+> drift apart. What follows is the shape of what is required.
+
 | Asset             | Spec                                   |
 | ----------------- | -------------------------------------- |
 | Icon              | 128×128 PNG — `public/icon/128.png`    |
