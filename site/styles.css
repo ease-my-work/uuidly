@@ -110,14 +110,34 @@ kbd {
   border-radius: 2px;
 }
 
+/*
+ * Icon-only. An 18px glyph is well under any reasonable target size, so the box
+ * is sized deliberately rather than left to the glyph — 36px, matching the
+ * pointer target the extension's own header uses.
+ */
 .ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   color: var(--text-dim);
   text-decoration: none;
-  font-size: 14px;
+  transition:
+    color 120ms ease,
+    background-color 120ms ease;
 }
 
 .ghost:hover {
   color: var(--text);
+  background: var(--surface-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ghost {
+    transition: none;
+  }
 }
 
 /* --- hero --------------------------------------------------------------- */
