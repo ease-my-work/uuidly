@@ -12,7 +12,7 @@ Companion: [PUBLISHING.md](PUBLISHING.md) (release mechanics) · [MAINTAINING.md
 
 | Field              | Value                                                                     |
 | ------------------ | ------------------------------------------------------------------------- |
-| Name               | `uuidly — UUID Generator`                                                 |
+| Name               | `uuidly`                                                                  |
 | Category           | Developer Tools                                                           |
 | Language           | English (UK)                                                              |
 | Privacy policy URL | `https://ease-my-work.github.io/uuidly/privacy.html`                      |

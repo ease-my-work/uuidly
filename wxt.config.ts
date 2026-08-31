@@ -11,7 +11,7 @@ export default defineConfig({
   imports: false,
 
   manifest: {
-    name: 'uuidly — UUID Generator',
+    name: 'uuidly',
     short_name: 'uuidly',
     description:
       'Generate and copy UUID v1, v4, v7, NIL and MAX in one click. Bulk up to 100 with CSV export. Offline, no tracking.',
