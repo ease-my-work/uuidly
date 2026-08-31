@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-08-31
 
-First public release. Chrome only; Firefox and Edge follow.
+First public release, live on the
+[Chrome Web Store](https://chromewebstore.google.com/detail/jgadcanofihgoofbknpllmdgghdhmgdl).
+Chrome only; Firefox and Edge follow.
 
 ### Added
 

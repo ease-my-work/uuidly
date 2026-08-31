@@ -10,12 +10,14 @@ Companion: [PUBLISHING.md](PUBLISHING.md) (release mechanics) · [MAINTAINING.md
 
 ## Identity
 
-| Field              | Value                                                |
-| ------------------ | ---------------------------------------------------- |
-| Name               | `uuidly — UUID Generator`                            |
-| Category           | Developer Tools                                      |
-| Language           | English (UK)                                         |
-| Privacy policy URL | `https://ease-my-work.github.io/uuidly/privacy.html` |
+| Field              | Value                                                                     |
+| ------------------ | ------------------------------------------------------------------------- |
+| Name               | `uuidly — UUID Generator`                                                 |
+| Category           | Developer Tools                                                           |
+| Language           | English (UK)                                                              |
+| Privacy policy URL | `https://ease-my-work.github.io/uuidly/privacy.html`                      |
+| Item ID            | `jgadcanofihgoofbknpllmdgghdhmgdl`                                        |
+| Listing            | https://chromewebstore.google.com/detail/jgadcanofihgoofbknpllmdgghdhmgdl |
 
 ## Short description
 
@@ -170,6 +172,10 @@ expressed as fractions of the capture, so they survive a recapture at a differen
 
 ## After approval
 
-- [ ] Replace "Chrome Web Store listing coming soon" in `site/index.html` with the real link
-- [ ] Add the store badge to `README.md`
-- [ ] Update `docs/FEATURES.md` F-71
+Published 31 August 2026 as v1.0.0.
+
+- [x] Replaced the "coming soon" note in `site/index.html` with an **Add to Chrome** button
+- [x] Added the store badge and install link to `README.md`
+- [x] Updated `docs/FEATURES.md` F-71
+- [ ] Add `CHROME_EXTENSION_ID` (`jgadcanofihgoofbknpllmdgghdhmgdl`) and the three OAuth secrets, so a `v*` tag
+      submits the update instead of only attaching the ZIP

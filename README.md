@@ -11,14 +11,14 @@ Open the popup, a UUID is already there. Click it, it's copied. That's the whole
 [![License: MIT](https://img.shields.io/badge/License-MIT-A78BFA.svg)](LICENSE)
 [![Permissions: storage only](https://img.shields.io/badge/permissions-storage%20only-4ADE80.svg)](SECURITY.md)
 [![Popup bundle](https://img.shields.io/badge/popup-17.6%20kB%20gzipped-4ADE80.svg)](docs/TECHNICAL.md#6-why-preact)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v1.0.0-A78BFA.svg)](https://chromewebstore.google.com/detail/jgadcanofihgoofbknpllmdgghdhmgdl)
 
 </div>
 
 ---
 
-> **Status: in development.** Not yet on the Chrome Web Store. Follow
-> [the milestones](https://github.com/ease-my-work/uuidly/milestones) or build it yourself
-> in three commands — see [Development](#development).
+> **Status: released.** v1.0.0 is on the
+> [Chrome Web Store](https://chromewebstore.google.com/detail/jgadcanofihgoofbknpllmdgghdhmgdl). Firefox and Edge follow in v1.1.0.
 
 ## Why another UUID generator
 
@@ -51,9 +51,9 @@ Full list with status: [`docs/FEATURES.md`](docs/FEATURES.md).
 
 ## Install
 
-Coming to the Chrome Web Store. Firefox and Edge follow in v1.1.0.
+**[Add to Chrome](https://chromewebstore.google.com/detail/jgadcanofihgoofbknpllmdgghdhmgdl)** — free, MIT-licensed, one permission.
 
-Until then, build from source:
+Firefox and Edge follow in v1.1.0. Or build from source:
 
 ```bash
 git clone https://github.com/ease-my-work/uuidly.git

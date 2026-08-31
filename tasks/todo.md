@@ -254,7 +254,7 @@ Raised from the first real look at the popup in a browser. All shipped, all docu
         because a half-applied deploy is worse than a queued one
   - [ ] **Live URL and Lighthouse ≥ 95 ×4** — needs the push and Pages enabled
         (see [docs/MAINTAINING.md](../docs/MAINTAINING.md))
-  - [ ] **Real store URLs** replace the "coming soon" note after T8.2
+  - [x] **Real store URLs** — the landing page now leads with **Add to Chrome**
 
 **Found by writing tests for the demo:** the page's v7 was not monotonic. Values generated
 inside the same millisecond differed only in random bits, so a burst did not sort — which is
@@ -291,9 +291,10 @@ the entire reason to pick v7, and the page claims it. Fixed with an RFC 9562 §6
         `pnpm screenshots` from your raw popup captures: scaled onto a canvas with a
         headline, handwritten callouts and a caption, then encoded as 24-bit PNG with **no
         alpha**, which the store requires and a raw capture does not satisfy
-  - [ ] Create the listing, paste the copy, submit. Needs your developer account
+  - [x] Listing created and submitted; **published 31 August 2026** as item
+        `jgadcanofihgoofbknpllmdgghdhmgdl`
 - [ ] **T8.3** Tag `v1.0.0`, finalise `CHANGELOG.md`, seed `good first issue` backlog — _deps: T8.2_
-  - [ ] Move `Unreleased` to a `1.0.0` heading with the date
+  - [x] Move `Unreleased` to a `1.0.0` heading with the date
   - [ ] ≥ 3 starter issues; `docs/FEATURES.md` statuses to `done`
 
 > ### ⛳ CHECKPOINT D — Chrome launch review

@@ -78,13 +78,13 @@ Companion documents: [TECHNICAL.md](TECHNICAL.md) · [DESIGN.md](DESIGN.md) · [
 
 ## Landing page
 
-| ID   | Feature                                                            | Priority | Status                                  |
-| ---- | ------------------------------------------------------------------ | -------- | --------------------------------------- |
-| F-70 | Single page: hero, live working demo, feature grid, FAQ, privacy   | P1       | **done**                                |
-| F-71 | Chrome Web Store install button (Firefox + Edge badges in P9)      | P1       | repo link live; store badges after T8.2 |
-| F-72 | SEO — meta, OG/Twitter cards, JSON-LD, `sitemap.xml`, `robots.txt` | P1       | **done**                                |
-| F-73 | Lighthouse ≥ 95 on all four categories                             | P1       | measure after the first deploy          |
-| F-74 | Deployed to GitHub Pages by Action                                 | P1       | **done**                                |
+| ID   | Feature                                                            | Priority | Status                                 |
+| ---- | ------------------------------------------------------------------ | -------- | -------------------------------------- |
+| F-70 | Single page: hero, live working demo, feature grid, FAQ, privacy   | P1       | **done**                               |
+| F-71 | Chrome Web Store install button (Firefox + Edge badges in P9)      | P1       | ✅ live on the landing page and README |
+| F-72 | SEO — meta, OG/Twitter cards, JSON-LD, `sitemap.xml`, `robots.txt` | P1       | **done**                               |
+| F-73 | Lighthouse ≥ 95 on all four categories                             | P1       | measure after the first deploy         |
+| F-74 | Deployed to GitHub Pages by Action                                 | P1       | **done**                               |
 
 ## Open-source infrastructure
 
