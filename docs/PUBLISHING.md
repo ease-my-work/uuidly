@@ -48,13 +48,13 @@ To exercise the whole workflow without shipping anything, tag a candidate agains
 already in `package.json`:
 
 ```
-git tag v0.1.0-rc.1 && git push origin v0.1.0-rc.1
+git tag v1.0.0-rc.1 && git push origin v1.0.0-rc.1
 ```
 
 `-alpha.N`, `-beta.N` and `-rc.N` suffixes are accepted; the base version still has to match
-`package.json` exactly, so `v0.2.0-rc.1` on a `0.1.0` manifest is rejected like any other
+`package.json` exactly, so `v1.1.0-rc.1` on a `1.0.0` manifest is rejected like any other
 mismatch. The manifest itself never carries the suffix — Chrome versions are dot-separated
-integers, and `0.1.0-rc.1` is not a valid one.
+integers, and `1.0.0-rc.1` is not a valid one.
 
 A candidate runs the full gate and attaches the ZIP, but is **marked a prerelease and never
 submitted to the store**, even with the secrets configured. Version numbers cannot be reused
@@ -63,8 +63,8 @@ once submitted, so an RC that reached review would burn the number it was rehear
 Clean up afterwards — a candidate is scaffolding, not history:
 
 ```
-gh release delete v0.1.0-rc.1 --yes
-git push origin :refs/tags/v0.1.0-rc.1 && git tag -d v0.1.0-rc.1
+gh release delete v1.0.0-rc.1 --yes
+git push origin :refs/tags/v1.0.0-rc.1 && git tag -d v1.0.0-rc.1
 ```
 
 ---

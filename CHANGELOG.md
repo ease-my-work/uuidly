@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-08-31
+
+First public release. Chrome only; Firefox and Edge follow.
+
 ### Added
 
 - Project scaffold: WXT 0.21 (Manifest V3, Chrome), TypeScript 5.9 strict, Tailwind CSS v4,
@@ -18,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   PNG icon set from one vector definition.
 - Documentation: features, technical implementation, architecture and publishing runbook.
 - Open-source governance: licence, code of conduct, contributing guide, security policy.
+- `AGENTS.md`, with `CLAUDE.md` pointing at it: the decisions that read as mistakes without
+  their reasoning, and the traps that cost a debugging session each. Canonical in one file so
+  the two cannot drift.
 - `lib/uuid.ts` — generation for v4, v1, v7, NIL and MAX behind a single module, with
   bulk generation clamped to 1–100. Tested against RFC 9562 directly rather than against
   the `uuid` package's own reporting: version and variant bits, v7 monotonicity across
@@ -84,6 +91,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Release with the ZIP attached, and submits to the Chrome Web Store when the secrets are
   present. Without them it skips the submission rather than failing, so forks still exercise
   everything else.
+- Release candidates: an `-alpha.N`, `-beta.N` or `-rc.N` suffix is matched against the base
+  version, marked a prerelease, and never submitted to the store. `package.json` cannot carry
+  the suffix — Chrome manifest versions are dot-separated integers — so the whole workflow can
+  be rehearsed without spending a version number that a submission would make unusable.
 - Store listing copy, privacy-form answers and asset checklist in `docs/STORE-LISTING.md`,
   with tests tying the short description's length and the permission claims back to the
   code — a listing is reviewed once and then lives for years while the code keeps moving.
@@ -138,4 +149,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Both are now enforced by `pnpm guard` against the built output rather than asserted in
   prose. See [SECURITY.md](SECURITY.md).
 
-[Unreleased]: https://github.com/ease-my-work/uuidly/commits/master
+[Unreleased]: https://github.com/ease-my-work/uuidly/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/ease-my-work/uuidly/releases/tag/v1.0.0

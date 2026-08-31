@@ -276,8 +276,10 @@ the entire reason to pick v7, and the page claims it. Fixed with an RFC 9562 §6
         and no extra SHA to keep current
   - [x] Submission is **skipped, not failed**, when secrets are absent, so forks still
         exercise everything above it. A notice says so in the run summary
-  - [ ] **Verify with an RC tag** — push `v0.1.0-rc.1` on a branch, inspect the assets, then
-        delete the tag and release. Needs a push
+  - [ ] **Verify with an RC tag** — push `v1.0.0-rc.1`, inspect the assets, then delete the
+        tag and release. The first attempt failed: the version check compared the tag to
+        `package.json` byte for byte and rejected the suffix this step depends on, so
+        `release.yml` had to learn about candidates first
 - [~] **T8.2** Chrome Web Store listing + submission — _deps: T8.1_
   - [x] All copy written and cross-checked: [docs/STORE-LISTING.md](../docs/STORE-LISTING.md)
   - [x] Short description is 130 of 132 characters — **asserted by a test**, because "just
