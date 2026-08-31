@@ -216,9 +216,37 @@ h1 {
   background: #a78bfa2e;
 }
 
+/* Secondary action: same metrics as .cta so the pair sits on one baseline,
+   without the filled treatment that would compete with it. */
+.cta-alt {
+  display: inline-block;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  transition:
+    border-color 120ms ease-out,
+    color 120ms ease-out;
+}
+
+.cta-alt:hover {
+  border-color: var(--text-mute);
+  color: var(--text);
+}
+
 .cta-note {
   color: var(--text-mute);
   font-size: 13px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta,
+  .cta-alt {
+    transition: none;
+  }
 }
 
 /* --- demo (a working replica of the popup) ------------------------------- */
