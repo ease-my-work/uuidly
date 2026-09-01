@@ -11,7 +11,13 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { blend, diamondCoverage, encodePng, roundedSquareCoverage } from './lib/png.mjs';
+import {
+  blend,
+  diamondCoverage,
+  encodePng,
+  encodePngRgb,
+  roundedSquareCoverage,
+} from './lib/png.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = resolve(ROOT, 'public/icon');
@@ -72,6 +78,33 @@ function renderStoreIcon() {
   return encodePng(size, size, rgba);
 }
 
+/**
+ * The Product Hunt thumbnail, 240x240.
+ *
+ * Product Hunt renders this at roughly 40-60px in the feed, which is the size
+ * that decides whether it is legible at all — so no text, and the same 0.44/0.19
+ * proportions as every other icon, because someone who saw the toolbar icon
+ * should recognise this one.
+ *
+ * Full-bleed background with no alpha: the feed sits on white and the profile
+ * page on a light grey, and a transparent margin would make the black square
+ * look like it was floating on the wrong colour.
+ */
+function renderThumbnail() {
+  const size = 240;
+  const rgba = new Uint8Array(size * size * 4);
+
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const i = (y * size + x) * 4;
+      blend(rgba, i, TILE_BG, 1);
+      blend(rgba, i, ACCENT, diamondCoverage(x, y, size, 0.44, 0.19));
+    }
+  }
+
+  return encodePngRgb(size, size, rgba, TILE_BG);
+}
+
 mkdirSync(OUT_DIR, { recursive: true });
 for (const size of SIZES) {
   writeFileSync(resolve(OUT_DIR, `${size}.png`), renderIcon(size));
@@ -82,3 +115,6 @@ const storeDir = resolve(ROOT, 'store');
 mkdirSync(storeDir, { recursive: true });
 writeFileSync(resolve(storeDir, 'icon-128.png'), renderStoreIcon());
 console.warn('store icon 128x128 (96x96 artwork) -> store/icon-128.png');
+
+writeFileSync(resolve(storeDir, 'ph-thumbnail-240.png'), renderThumbnail());
+console.warn('Product Hunt thumbnail 240x240 -> store/ph-thumbnail-240.png');
